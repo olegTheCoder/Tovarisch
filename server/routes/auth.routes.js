@@ -1,10 +1,12 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const { User } = require('../db/models')
 
-router.post('/singup', async (req, res) => {
+router.post('/signup', async (req, res) => {
 	const { nickname, name, email, password } = req.body
+
 	if (nickname && name && email && password) {
 		try {
 			const hashedPass = await bcrypt.hash(password, 10)
@@ -14,6 +16,7 @@ router.post('/singup', async (req, res) => {
 				nickname: newUser.nickname,
 				name: newUser.name,
 			}
+
 			return res.json({ id: newUser.id, nickname: newUser.nickname, name: newUser.name })
 		} catch (error) {
 			return res.sendStatus(500)
@@ -50,10 +53,10 @@ router.post('/signin', async (req, res) => {
 	}
 })
 
-router.get('/logout', (req, res) => {
+router.get('/signout', (req, res) => {
 	req.session.destroy()
 	res.clearCookie('sid')
-  return res.sendStatus(200)
+	return res.sendStatus(200)
 })
 
 module.exports = router
