@@ -5,6 +5,13 @@ import thunk from 'redux-thunk'
 
 const initialState = {
 	users: [],
+	auth: {
+		token: localStorage.getItem('token'),
+		id: null,
+		nickname: null,
+		name: null,
+		email: null,
+	},
 }
 
 export const store = createStore(rootReducer, initialState, composeWithDevTools(applyMiddleware(thunk)))

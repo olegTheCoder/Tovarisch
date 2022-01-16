@@ -1,54 +1,69 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { registerUser } from '../redux/action-creators/userActions'
+import { useDispatch, useSelector } from 'react-redux'
+import { signUp } from '../redux/action-creators/authActions'
 
 function RegistrationPage() {
-	const [nickname, setNickname] = useState('')
-	const [name, setName] = useState('')
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
-
-	const handleNickname = (e) => {
-		setNickname(e.target.value)
-	}
-
-	const handleName = (e) => {
-		setName(e.target.value)
-	}
-
-	const handleEmail = (e) => {
-		setEmail(e.target.value)
-	}
-
-	const handlePassword = (e) => {
-		setPassword(e.target.value)
-	}
+	const auth = useSelector((state) => state)
+	console.log(auth)
+	const [user, setUser] = useState({
+		nickname: '',
+		name: '',
+		email: '',
+		password: '',
+	})
 
 	const dispatch = useDispatch()
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		const formData = { nickname, name, email, password }
-		dispatch(registerUser(formData))
-		setNickname('')
-		setName('')
-		setEmail('')
-		setPassword('')
+
+		dispatch(signUp(user))
+
+		setUser({
+			nickname: '',
+			name: '',
+			email: '',
+			password: '',
+		})
 	}
 
 	return (
 		<form onSubmit={handleSubmit} name='registration'>
 			<p>
-				<input onChange={handleNickname} value={nickname} name='nickname' placeholder='nickname' />
+				<input
+					onChange={(e) => setUser({ ...user, nickname: e.target.value })}
+					value={user.nickname}
+					type='text'
+					name='nickname'
+					placeholder='nickname'
+				/>
 			</p>
 			<p>
-				<input onChange={handleName} value={name} name='name' placeholder='name' />
+				<input
+					onChange={(e) => setUser({ ...user, name: e.target.value })}
+					value={user.name}
+					type='text'
+					name='name'
+					placeholder='name'
+				/>
 			</p>
 			<p>
-				<input onChange={handleEmail} value={email} type='email' name='email' placeholder='email' />
+				<input
+					onChange={(e) => setUser({ ...user, email: e.target.value })}
+					value={user.email}
+					type='email'
+					name='email'
+					placeholder='email'
+				/>
 			</p>
 			<p>
-				<input onChange={handlePassword} value={password} type='password' name='password' placeholder='password' />
+				<input
+					onChange={(e) => setUser({ ...user, password: e.target.value })}
+					value={user.password}
+					type='password'
+					name='password'
+					placeholder='password'
+				/>
 			</p>
 			<p>
 				<button onClick={handleSubmit} type='submit'>

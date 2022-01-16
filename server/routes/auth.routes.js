@@ -11,11 +11,11 @@ router.post('/signup', async (req, res) => {
 		try {
 			const hashedPass = await bcrypt.hash(password, 10)
 			const newUser = await User.create({ nickname, name, email, password: hashedPass })
-			req.session.user = {
-				id: newUser.id,
-				nickname: newUser.nickname,
-				name: newUser.name,
-			}
+			// req.session.user = {
+			// 	id: newUser.id,
+			// 	nickname: newUser.nickname,
+			// 	name: newUser.name,
+			// }
 
 			return res.json({ id: newUser.id, nickname: newUser.nickname, name: newUser.name })
 		} catch (error) {
@@ -32,15 +32,24 @@ router.post('/signin', async (req, res) => {
 		try {
 			const currentUser = await User.findOne({ where: { email } })
 			if (currentUser && (await bcrypt.compare(password, currentUser.password))) {
-				req.session.user = {
+				// req.session.user = {
+				// 	id: currentUser.id,
+				// 	nickname: currentUser.nickname,
+				// 	name: currentUser.name,
+				// }
+
+				const accessToken = jwt.sign({
 					id: currentUser.id,
 					nickname: currentUser.nickname,
 					name: currentUser.name,
-				}
+					email: currentUser.email,
+				})
+
 				return res.json({
-					id: currentUser.id,
 					nickname: currentUser.nickname,
+					email: currentUser.email,
 					name: currentUser.name,
+					accessToken,
 				})
 			} else {
 				return res.sendStatus(401)
@@ -54,8 +63,8 @@ router.post('/signin', async (req, res) => {
 })
 
 router.get('/signout', (req, res) => {
-	req.session.destroy()
-	res.clearCookie('sid')
+	// req.session.destroy()
+	// res.clearCookie('sid')
 	return res.sendStatus(200)
 })
 

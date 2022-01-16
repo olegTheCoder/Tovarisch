@@ -7,13 +7,18 @@ import PersonalCabinetPage from './Pages/PersonalCabinetPage'
 import RegistrationPage from './Pages/RegistrationPage'
 import AuthorizationPage from './Pages/AuthorizationPage'
 import { useEffect } from 'react'
-import { getAllUsers } from './redux/action-creators/userActions'
+// import { getAllUsers } from './redux/action-creators/userActions'
+import { loadUser } from './redux/action-creators/authActions'
 
 function App() {
 	const dispatch = useDispatch()
 
+	// useEffect(() => {
+	// 	dispatch(getAllUsers())
+	// }, [dispatch])
+
 	useEffect(() => {
-		dispatch(getAllUsers())
+		dispatch(loadUser())
 	}, [dispatch])
 
 	return (
