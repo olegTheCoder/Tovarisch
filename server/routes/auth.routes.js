@@ -4,20 +4,35 @@ const jwt = require('jsonwebtoken')
 
 const { User } = require('../db/models')
 
+const generateAccessToken = (id, nickname, name, email) => {
+	const payload = {
+		id: id,
+		nickname: nickname,
+		name: name,
+		email: email,
+	}
+	return jwt.sign(payload, process.env.ACCESS_TOKEN)
+}
+
 router.post('/signup', async (req, res) => {
 	const { nickname, name, email, password } = req.body
 
 	if (nickname && name && email && password) {
 		try {
+			const emailExists = await User.findOne({ where: { email } })
+			if (emailExists) {
+				return res.json({ message: 'Пользователь с таким почтовым адрессом уже зарегистрирован' })
+			}
+			const nicknameExists = await User.findOne({ where: { nickname } })
+			if (nicknameExists) {
+				return res.json({ message: 'Такой никнейм занят' })
+			}
 			const hashedPass = await bcrypt.hash(password, 10)
 			const newUser = await User.create({ nickname, name, email, password: hashedPass })
-			// req.session.user = {
-			// 	id: newUser.id,
-			// 	nickname: newUser.nickname,
-			// 	name: newUser.name,
-			// }
 
-			return res.json({ id: newUser.id, nickname: newUser.nickname, name: newUser.name })
+			// return res.json({ id: newUser.id, nickname: newUser.nickname, name: newUser.name, email: newUser.email })
+			const accessToken = generateAccessToken(newUser.id, newUser.nickname, newUser.name, newUser.email)
+			return res.json({ accessToken })
 		} catch (error) {
 			return res.sendStatus(500)
 		}
@@ -30,25 +45,11 @@ router.post('/signin', async (req, res) => {
 	const { email, password } = req.body
 	if (email && password) {
 		try {
-			const currentUser = await User.findOne({ where: { email } })
+			const currentUser = await User.findOne({ where: { email }, raw: true })
+			console.log(currentUser)
 			if (currentUser && (await bcrypt.compare(password, currentUser.password))) {
-				// req.session.user = {
-				// 	id: currentUser.id,
-				// 	nickname: currentUser.nickname,
-				// 	name: currentUser.name,
-				// }
-
-				const accessToken = jwt.sign({
-					id: currentUser.id,
-					nickname: currentUser.nickname,
-					name: currentUser.name,
-					email: currentUser.email,
-				})
-
+				const accessToken = generateAccessToken(currentUser.id, currentUser.nickname, currentUser.name, currentUser.email)
 				return res.json({
-					nickname: currentUser.nickname,
-					email: currentUser.email,
-					name: currentUser.name,
 					accessToken,
 				})
 			} else {
