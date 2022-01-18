@@ -18,7 +18,7 @@ export const setRadiusAndSendOnServer = (dataRadius) => async (dispatch) => {
   };
 
   const radius = await addRadiusToServer(dataRadius);
-  console.log(radius);
+  console.log(radius, 'radius');
 
   dispatch({
     type: SET_RADIUS,

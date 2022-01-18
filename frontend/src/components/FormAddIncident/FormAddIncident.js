@@ -12,7 +12,7 @@ function FormAddIncident() {
   function handleSubmit(e) {
     e.preventDefault();
     const newIncident = {
-      id: 10,
+      
       title: inputTitle,
       description: inputDescription,
       category,

@@ -15,7 +15,7 @@ function FormRadius() {
     let radiusMetr = Number(inputRadius) * 1000
     const newZone = {inputTitle, radiusMetr, currentPoint};
     
-    console.log(newZone);
+    console.log(newZone, 'handleSubmit');
     dispatch(setRadiusAndSendOnServer(newZone));
    
   }
