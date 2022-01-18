@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const mailer = require('../nodemailer')
 
 const { User } = require('../db/models')
 
@@ -29,8 +30,20 @@ router.post('/signup', async (req, res) => {
 			}
 			const hashedPass = await bcrypt.hash(password, 10)
 			const newUser = await User.create({ nickname, name, email, password: hashedPass })
-
-			// return res.json({ id: newUser.id, nickname: newUser.nickname, name: newUser.name, email: newUser.email })
+			const message = {
+				to: email,
+				subject: 'Поздравляем! Вы успешно зарегистрировались на нашем сайте.',
+				html: `
+				<h2>Поздравляем! Вы успешно зарегистрировались на нашем сайте.</h2>
+				<i>данные вашей учетной записи</i>:
+				<ul>
+					<li>login: ${email}</li>
+					<li>password: ${password}</li>
+				</ul>
+				<p>Данное письмо не требует ответа.</p>
+				`,
+			}
+			mailer(message)
 			const accessToken = generateAccessToken(newUser.id, newUser.nickname, newUser.name, newUser.email)
 			return res.json({ accessToken })
 		} catch (error) {
@@ -63,10 +76,10 @@ router.post('/signin', async (req, res) => {
 	}
 })
 
-router.get('/signout', (req, res) => {
-	// req.session.destroy()
-	// res.clearCookie('sid')
-	return res.sendStatus(200)
-})
+// router.get('/signout', (req, res) => {
+// 	req.session.destroy()
+// 	res.clearCookie('sid')
+// 	return res.sendStatus(200)
+// })
 
 module.exports = router

@@ -13,7 +13,7 @@ export const signUp = (formData) => async (dispatch) => {
 
 	const accessToken = await response.json()
 
-	localStorage.setItem('token', accessToken)
+	localStorage.setItem('token', accessToken.accessToken)
 
 	dispatch({
 		type: SIGN_UP,
@@ -33,7 +33,7 @@ export const signIn = (formData) => async (dispatch) => {
 
 	const accessToken = await response.json()
 
-	localStorage.setItem('token', accessToken)
+	localStorage.setItem('token', accessToken.accessToken)
 
 	dispatch({
 		type: SIGN_IN,
@@ -41,31 +41,16 @@ export const signIn = (formData) => async (dispatch) => {
 	})
 }
 
-// export const loadUser = () => (dispatch, getState) => {
-// 	const token = getState().auth.token
-// 	if (token) {
-// 		dispatch({
-// 			type: USER_LOADED,
-// 			token,
-// 		})
-// 	} else return null
-// }
-
-// export const signIn = (formData) => (dispatch) => {
-// 	axios
-// 		.post('http://localhost:5000/signin', formData)
-// 		.then((token) => {
-// 			localStorage.setItem('token', token.data)
-
-// 			dispatch({
-// 				type: SIGN_IN,
-// 				token,
-// 			})
-// 		})
-// 		.catch((error) => {
-// 			console.log(error.response)
-// 		})
-// }
+export const loadUser = () => (dispatch, getState) => {
+	const accessToken = getState().auth.acessToken
+	console.log('acessToken from loadUser authActions==============================', getState().auth.accessToken)
+	if (accessToken) {
+		dispatch({
+			type: USER_LOADED,
+			payload: { accessToken },
+		})
+	} else return null
+}
 
 export const signOut = () => (dispatch) => {
 	dispatch({

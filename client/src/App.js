@@ -8,14 +8,14 @@ import RegistrationPage from './Pages/RegistrationPage'
 import AuthorizationPage from './Pages/AuthorizationPage'
 import { useEffect } from 'react'
 // import { getAllUsers } from './redux/action-creators/userActions'
-// import { loadUser } from './redux/action-creators/authActions'
+import { loadUser } from './redux/action-creators/authActions'
 
 function App() {
 	const dispatch = useDispatch()
 
-	// useEffect(() => {
-	// 	dispatch(loadUser())
-	// }, [dispatch])
+	useEffect(() => {
+		dispatch(loadUser())
+	}, [dispatch])
 
 	return (
 		<>
