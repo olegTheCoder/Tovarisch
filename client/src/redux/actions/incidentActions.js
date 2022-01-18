@@ -37,8 +37,14 @@ export const getIncidents = (data) => async (dispatch) => {
       .then((res) => res.data);
   };
 
-  const newInc = await getIncFromServer(data);
-console.log('all' , newInc);
+  const newInc = await getIncFromServer(data)
+  
+  for (let i = 0; i < newInc.length; i++) {
+    let rawCoords = newInc[i].coords;
+    rawCoords = rawCoords.slice(1, -1).split(",");
+    let postCoords = rawCoords.map((el) => Number(el));
+    newInc[i].coords = postCoords
+  }
 
   dispatch({
     type: GET_INCIDENTS,

@@ -8,9 +8,8 @@ const initState = {
   cords: [],
   incidents: [],
   radius: [],
-  
+  nearby: {} // Точка юзера и события поблизости
 };
-
 
 
 export const store = createStore(
