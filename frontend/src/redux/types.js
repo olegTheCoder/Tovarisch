@@ -1,0 +1,5 @@
+export const GET_CORDSWHEREWEARE = "GET_CORDSWHEREWEARE";
+export const GET_INCIDENTS = "GET_INCIDENTS";
+export const ADD_INCIDENT = "ADD_INCIDENT";
+export const SET_RADIUS = "SET_RADIUS";
+
