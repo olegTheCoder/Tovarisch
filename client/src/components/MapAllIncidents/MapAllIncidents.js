@@ -103,6 +103,8 @@ function MapAllIncidents() {
         icon = "http://localhost:3001/thief.png";
       else icon = "http://localhost:3001/nature.png";
 
+      console.log(allIncidents[i].img)
+
       geoObjects[i] = new ymaps.Placemark( // 
         [allIncidents[i].coords[0], allIncidents[i].coords[1]],
         {
@@ -116,10 +118,8 @@ function MapAllIncidents() {
           cursor: pointer;
           font-size: 14px;
           border: 1px solid transparent;
-          text-align: center;" class="btn" data-id=${allIncidents[i].id}>Подробнее</button> <br/><br/>`
-          + `<br> <img src="https://tengrinews.kz/userdata/news/2021/news_436297/thumb_m/photo_360182.jpeg" style='height:120px; weight:120px '> <br/>`,
-
-          // `<br> <img src="http://localhost:3001/uploads/${cards[i].image}" style='height:120px; weight:120px '> <br/>`, Образец формы для картинки
+          text-align: center;" class="btn" data-id=${allIncidents[i].id}>Подробнее</button> <br/><br/>` +
+          `<br> <img src="http://localhost:3000/uploads/${allIncidents[i].img}" style='height:120px; weight:120px '> <br/>`,
           ],
         },
         {
