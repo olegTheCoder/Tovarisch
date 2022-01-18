@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import style from "./style.module.css";
 import { addNewIncident } from "../../redux/actions/incidentActions";
@@ -8,24 +8,27 @@ function FormAddIncident() {
   const currentPoint = useSelector((state) => state.cords);
   const dispatch = useDispatch();
   dispatch(getIncidents());
+  const upload = useRef();
 
   function handleSubmit(e) {
     e.preventDefault();
     const newIncident = {
-      
       title: inputTitle,
       description: inputDescription,
       category,
       address: currentPoint.textAddress,
       coords: currentPoint.coords,
+      img: upload.current.value,
     };
 
-    dispatch(addNewIncident(newIncident));
+    dispatch(addNewIncident(newIncident, upload.current.files[0]));
   }
 
   const [inputTitle, setInputTitle] = useState("");
   const [inputDescription, setInputDescription] = useState("");
   const [category, setCategory] = useState("1");
+  const [image, setImage] = useState(null);
+  const [reader] = useState(new FileReader());
 
   function handleTitle(e) {
     setInputTitle(e.target.value);
@@ -37,6 +40,13 @@ function FormAddIncident() {
 
   function handleCategory(e) {
     setCategory(e.target.value);
+  }
+
+  function imageHandler() {
+    reader.readAsDataURL(upload.current.files[0]);
+    reader.addEventListener("load", function () {
+      setImage(reader.result);
+    });
   }
 
   return (
@@ -69,18 +79,15 @@ function FormAddIncident() {
         </select>
         <br />
         <br />
-        <div className="mb-3">
-          <h5 className="card-title">Выберите файл для загрузки</h5>
-          <label forhtml="upload" className="form-label">
-            Выбрать файл
-          </label>
-          <input
-            type="file"
-            className="form-control"
-            id="upload"
-            name="upload"
-          />
-        </div>
+        <label htmlFor="file">Добавить фото</label>
+        <input
+          type="file"
+          name="file"
+          id="file"
+          ref={upload}
+          onChange={imageHandler}
+        />
+        {image && <img src={image} className={style.img} />}
 
         <br />
         <button className={style.mt} type="submit">
