@@ -4,6 +4,8 @@ import { getCords } from "../../redux/actions/cordsActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getIncidents } from "../../redux/actions/incidentActions";
+import AccidentNearby from "../AccidentNearby/AccidentNearby";
+import { userPosition } from "../../redux/actions/nearbyActions";
 
 function MapAllIncidents() {
   const [address, setAddress] = useState("");
@@ -14,6 +16,7 @@ function MapAllIncidents() {
   let myMap;
   let geoObjects = [];
   let navigate = useNavigate();
+  const allNearbyIncidents = useSelector((state) => state.nearby.nearbyIncidents)
 
   useEffect(() => {
     dispatch(getIncidents());
@@ -70,7 +73,7 @@ function MapAllIncidents() {
           }
         );
         /////////////////////////////////////////////////
-
+        dispatch(userPosition(cordsWhereWeAre)) // сохранинение точки для создания зоны прослушивания событий поблизости
         dispatch(getCords(cordsWhereWeAre)); // сохранение текущей точки в редаксе
         myMap.geoObjects.add(currentPlaceMark); // ставим точку на нашу карту
       });
@@ -92,9 +95,6 @@ function MapAllIncidents() {
     // отображение всех точек из базы данных
 
     for (let i = 0; i < allIncidents.length; i++) {
-      let rawCoords = allIncidents[i].coords;
-      rawCoords = rawCoords.slice(1, -1).split(",");
-      let postCoords = rawCoords.map((el) => Number(el));
       const category = allIncidents[i].category;
       let icon = null;
 
@@ -104,7 +104,7 @@ function MapAllIncidents() {
       else icon = "http://localhost:3001/nature.png";
 
       geoObjects[i] = new ymaps.Placemark( // 
-        [postCoords[0], postCoords[1]],
+        [allIncidents[i].coords[0], allIncidents[i].coords[1]],
         {
           balloonContentHeader: allIncidents[i].title,
           balloonContentBody: [
@@ -116,7 +116,10 @@ function MapAllIncidents() {
           cursor: pointer;
           font-size: 14px;
           border: 1px solid transparent;
-          text-align: center;" class="btn" data-id=${allIncidents[i].id}>Подробнее</button> <br/><br/>`,
+          text-align: center;" class="btn" data-id=${allIncidents[i].id}>Подробнее</button> <br/><br/>`
+          + `<br> <img src="https://tengrinews.kz/userdata/news/2021/news_436297/thumb_m/photo_360182.jpeg" style='height:120px; weight:120px '> <br/>`,
+
+          // `<br> <img src="http://localhost:3001/uploads/${cards[i].image}" style='height:120px; weight:120px '> <br/>`, Образец формы для картинки
           ],
         },
         {
@@ -174,12 +177,14 @@ function MapAllIncidents() {
       <h1 className={style.text}>Здесь все происшествия пользователей</h1>
       <div className={style.map} id="map"></div>
       <div className={style.text}>
+      <p>Количество происшествий рядом с вами: {allNearbyIncidents && allNearbyIncidents.length}</p>
         <h2>Ваша текущая позиция</h2>
         <p>{address}</p>
         <p>
           {currentPoint[0]}, {currentPoint[1]}
         </p>
       </div>
+      <AccidentNearby/>
     </div>
   );
 }

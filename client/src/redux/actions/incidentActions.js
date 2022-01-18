@@ -32,6 +32,13 @@ export const getIncidents = (data) => async (dispatch) => {
   }
 
   const newInc = await getIncFromServer(data)
+  
+  for (let i = 0; i < newInc.length; i++) {
+    let rawCoords = newInc[i].coords;
+    rawCoords = rawCoords.slice(1, -1).split(",");
+    let postCoords = rawCoords.map((el) => Number(el));
+    newInc[i].coords = postCoords
+  }
 
   dispatch({
     type: GET_INCIDENTS,

@@ -25,23 +25,23 @@ const sessionConfig = {
   cookie: { expires: 24 * 60 * 60e3 },
 };
 
-const sessionParser = session(sessionConfig);
+// const sessionParser = session(sessionConfig);
 
 app.use(cors());
-app.use(sessionParser);
-app.use(fileUpload());
+// app.use(sessionParser);
+// app.use(fileUpload());
 app.use(express.static(path.join(process.env.PWD, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use((req, res, next) => {
-  if (req.session.userId) {
-    res.locals.uploads = process.env.STATIC_PATH;
-    res.locals.userId = req.session.userId;
-    res.locals.userName = req.session.userName;
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   if (req.session.userId) {
+//     res.locals.uploads = process.env.STATIC_PATH;
+//     res.locals.userId = req.session.userId;
+//     res.locals.userName = req.session.userName;
+//   }
+//   next();
+// });
 
 app.use("/user", userRouter);
 app.use("/incident", incidentRouter);

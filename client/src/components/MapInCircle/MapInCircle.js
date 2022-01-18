@@ -4,6 +4,9 @@ import ListItem from "../ListItem/ListItem";
 
 function MapInCircle() {
   const allIncidents = useSelector((state) => state.incidents);
+  let myRadius = useSelector((state) => state.radius)
+  const allNearbyIncidents = useSelector((state) => state.nearby.nearbyIncidents)
+  // console.log(myRadius)
   let ymaps = window.ymaps;
   const [mathchedIncidents, setMathchedIncidents] = useState([]);
   useEffect(() => {
@@ -11,8 +14,17 @@ function MapInCircle() {
     ymaps.ready(init);
   }, []);
 
+  
+
+  function makeRadius(coord = [55.752175, 37.619509], radius = 0) {
+    return new ymaps.Circle([[coord[0], coord[1]], radius], null, {
+      draggable: false,
+    })
+  } //Функция, создающая кастомный радиус для прослушиваний событий
+
   function init() {
-    let isIncidentsMatch = [];
+    let isIncidentsMatch = []; // массив для запушивания в него всех событий с целью дальнейшей проверки 
+    console.log(allIncidents);
 
     let arr = [];
     function createArr() {
@@ -25,7 +37,7 @@ function MapInCircle() {
         isIncidentsMatch.push(newPoint);
       }
     }
-
+  // функция, распаршивающая все события в подходящий для проверки вид  
     createArr();
     // let a = [
     //   {
@@ -58,9 +70,8 @@ function MapInCircle() {
 
       // circle = new ymaps.Circle([[55.10, 37.50], 10000], null, { draggable: false });
 
-      circle = new ymaps.Circle([[55.75973, 37.627511], 1500], null, {
-        draggable: false,
-      });
+      circle = makeRadius(myRadius.currentPoint.coords, myRadius.radiusMetr)
+
     myMap.geoObjects.add(circle);
     // Объекты, попадающие в круг, будут становиться красными.
     let objectsInsideCircle = objects.searchInside(circle);
@@ -106,9 +117,22 @@ function MapInCircle() {
       <div id="map" style={{ width: "500px", height: "500px" }}></div>
       {mathchedIncidents.length ? (
         <div>
-          <h2>События, произошедшие в отслеживаемой зоне</h2>
+          <h2>События, произошедшие в зоне {myRadius.inputTitle}</h2>
           <ul>
             {mathchedIncidents.map((el, index) => (
+              <ListItem key={el.id} index={index} {...el} />
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <></>
+      )}
+      
+      {allNearbyIncidents.length ? (
+        <div>
+          <h2>События, произошедшие рядом</h2>
+          <ul>
+            {allNearbyIncidents.map((el, index) => (
               <ListItem key={el.id} index={index} {...el} />
             ))}
           </ul>
