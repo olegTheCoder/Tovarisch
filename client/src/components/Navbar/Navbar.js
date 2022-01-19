@@ -43,6 +43,24 @@ function Navbar() {
                   Совпадения
                 </Link>
               </li>
+
+              <li>
+					<Link to='/'>Главная</Link>
+				</li>
+				<li>
+					<Link to='/personalcabinet'>Личный кабинет</Link>
+				</li>
+				<li>
+					<Link to='/signin'>Авторизация</Link>
+				</li>
+				<li>
+					<Link to='/signup'>Регистрация</Link>
+				</li>
+				<li>
+					<Link to='/signout'>Выйти</Link>
+				</li>
+
+
             </ul>
           </div>
         </nav>
