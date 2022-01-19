@@ -6,6 +6,8 @@ import { getIncidents } from "../../redux/actions/incidentActions";
 
 function FormAddIncident() {
   const currentPoint = useSelector((state) => state.cords);
+  // const id = useSelector((state) => state.auth);
+  // console.log('id', id.id);
   const dispatch = useDispatch();
   dispatch(getIncidents());
   const upload = useRef();
@@ -13,6 +15,7 @@ function FormAddIncident() {
   function handleSubmit(e) {
     e.preventDefault();
     const newIncident = {
+      // userId: id.id,
       title: inputTitle,
       description: inputDescription,
       category,

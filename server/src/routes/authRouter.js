@@ -5,6 +5,7 @@ const mailer = require('../../nodemailer')
 
 const { User } = require('../../db/models')
 
+
 const generateAccessToken = (id, nickname, name, email) => {
 	const payload = {
 		id: id,
@@ -17,7 +18,7 @@ const generateAccessToken = (id, nickname, name, email) => {
 
 router.post('/signup', async (req, res) => {
 	const { nickname, name, email, password } = req.body
-
+console.log(req.body);
 	if (nickname && name && email && password) {
 		try {
 			const emailExists = await User.findOne({ where: { email } })
@@ -29,7 +30,9 @@ router.post('/signup', async (req, res) => {
 				return res.json({ message: 'Такой никнейм занят' })
 			}
 			const hashedPass = await bcrypt.hash(password, 10)
-			const newUser = await User.create({ nickname, name, email, password: hashedPass })
+		 	const newUser = await User.create({ nickname, name, email, password: hashedPass })
+       req.session.userId = newUser.id
+       
 			const message = {
 				to: email,
 				subject: 'Поздравляем! Вы успешно зарегистрировались на нашем сайте.',
@@ -44,7 +47,8 @@ router.post('/signup', async (req, res) => {
 				`,
 			}
 			mailer(message)
-			const accessToken = generateAccessToken(newUser.id, newUser.nickname, newUser.name, newUser.email)
+			const accessToken = await generateAccessToken(newUser.id, newUser.nickname, newUser.name, newUser.email)
+      console.log(accessToken);
 			return res.json({ accessToken })
 		} catch (error) {
 			return res.sendStatus(500)
@@ -56,13 +60,13 @@ router.post('/signup', async (req, res) => {
 
 router.post('/signin', async (req, res) => {
 	const { email, password } = req.body
+  console.log(req.body);
 	if (email && password) {
 		try {
 			const currentUser = await User.findOne({ where: { email }, raw: true })
-			console.log(currentUser)
 			if (currentUser && (await bcrypt.compare(password, currentUser.password))) {
 				const accessToken = generateAccessToken(currentUser.id, currentUser.nickname, currentUser.name, currentUser.email)
-				return res.json({
+        return res.json({
 					accessToken,
 				})
 			} else {
@@ -76,10 +80,6 @@ router.post('/signin', async (req, res) => {
 	}
 })
 
-// router.get('/signout', (req, res) => {
-// 	req.session.destroy()
-// 	res.clearCookie('sid')
-// 	return res.sendStatus(200)
-// })
+
 
 module.exports = router

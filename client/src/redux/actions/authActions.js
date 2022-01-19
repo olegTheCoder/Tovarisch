@@ -2,7 +2,7 @@ import { SIGN_IN, SIGN_OUT, SIGN_UP, USER_LOADED } from '../types'
 const { REACT_APP_API_URL: API, REACT_APP_API_PORT: PORT, REACT_APP_API_AUTH_ENDPOINT: AUTH } = process.env
 
 export const signUp = (formData) => async (dispatch) => {
-	const response = await fetch(`${API}:${PORT}/${AUTH}/signup`, {
+	const response = await fetch(`${API}:${PORT}/${AUTH}/signup`, { // `${API}:${PORT}/${AUTH}/signup`
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -12,6 +12,7 @@ export const signUp = (formData) => async (dispatch) => {
 	})
 
 	const accessToken = await response.json()
+  console.log(accessToken);
 
 	localStorage.setItem('token', accessToken.accessToken)
 
@@ -22,7 +23,7 @@ export const signUp = (formData) => async (dispatch) => {
 }
 
 export const signIn = (formData) => async (dispatch) => {
-	const response = await fetch(`${API}:${PORT}/${AUTH}/signin`, {
+	const response = await fetch(`${API}:${PORT}/${AUTH}/signin`, { //
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
