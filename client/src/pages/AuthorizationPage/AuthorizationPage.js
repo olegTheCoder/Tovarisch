@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { signIn } from '../redux/action-creators/authActions'
+import { signIn } from '../../redux/actions/authActions'
 
 function AuthorizationPage() {
 	// const auth = useSelector((state) => state.auth)

@@ -1,8 +1,7 @@
-import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import RegistrationPage from './pages/RegistrationPage'
-import AuthorizationPage from './pages/AuthorizationPage'
+import RegistrationPage from './pages/RegistrationPage/RegistrationPage'
+import AuthorizationPage from './pages/AuthorizationPage/AuthorizationPage'
 import { useEffect } from 'react'
 import { loadUser } from './redux/actions/authActions'
 import Navbar from "./components/Navbar/Navbar";

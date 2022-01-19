@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { signUp } from '../redux/action-creators/authActions'
+import { signUp } from '../../redux/actions/authActions'
 
 function RegistrationPage() {
 	const auth = useSelector((state) => state)

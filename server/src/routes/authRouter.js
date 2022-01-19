@@ -1,9 +1,9 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const mailer = require('../nodemailer')
+const mailer = require('../../nodemailer')
 
-const { User } = require('../db/models')
+const { User } = require('../../db/models')
 
 const generateAccessToken = (id, nickname, name, email) => {
 	const payload = {

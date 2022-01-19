@@ -3,20 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.24.0",
-    "dotenv": "^14.1.1",
-    "jwt-decode": "^3.1.2",
-=======
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "axios": "^0.24.0",
+    "dotenv": "^14.2.0",
     "express-fileupload": "^1.2.1",
->>>>>>> 71e84e248c827ed4d54e0ed5674d8548dda8e22f
+    "jwt-decode": "^3.1.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
