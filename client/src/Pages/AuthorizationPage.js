@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { signIn } from '../redux/action-creators/authActions'
 
 function AuthorizationPage() {
-	const auth = useSelector((state) => state.auth)
-	console.log(auth)
+	// const auth = useSelector((state) => state.auth)
 	const [user, setUser] = useState({
 		email: '',
 		password: '',

@@ -21,8 +21,8 @@ export const authReducer = (state = {}, action) => {
 		case SIGN_IN:
 		case SIGN_UP:
 			const { accessToken } = payload
-			console.log(accessToken)
 			const user = jwtDecode(accessToken)
+			console.log(user);
 			return {
 				id: user.id,
 				nickname: user.nickname,

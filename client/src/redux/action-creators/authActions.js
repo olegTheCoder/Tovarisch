@@ -42,8 +42,7 @@ export const signIn = (formData) => async (dispatch) => {
 }
 
 export const loadUser = () => (dispatch, getState) => {
-	const accessToken = getState().auth.acessToken
-	console.log('acessToken from loadUser authActions==============================', getState().auth.accessToken)
+	const accessToken = getState().auth.token
 	if (accessToken) {
 		dispatch({
 			type: USER_LOADED,
