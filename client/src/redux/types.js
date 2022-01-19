@@ -4,3 +4,4 @@ export const ADD_INCIDENT = "ADD_INCIDENT";
 export const SET_RADIUS = "SET_RADIUS";
 export const USER_POSITION = "USER_POSITION";
 export const NEARBY_INCIDENTS = "NEARBY_INCIDENTS";
+export const SET_INCIDENTS = "SET_INCIDENTS";

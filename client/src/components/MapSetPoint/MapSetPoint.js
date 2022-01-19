@@ -1,16 +1,15 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./style.module.css";
 import { getCords } from "../../redux/actions/cordsActions";
 import { useDispatch, useSelector } from "react-redux";
 
 function MapSetPoint() {
   const currentPoint = useSelector((state) => state.cords);
-  const [address, setAddress] = useState('')
+  const [address, setAddress] = useState("");
   const dispatch = useDispatch();
   let ymaps = window.ymaps;
   let myMap;
   let myPlacemark;
-  
 
   useEffect(() => {
     document.querySelector("#map").innerHTML = "";
@@ -39,9 +38,9 @@ function MapSetPoint() {
             // Свойства
             iconContent: `МЫ ТУТ`,
             balloonContentBody: [
-              ` <h1>coords</h1>` +
+              `  <h3>Наше местоположение по IP</h3>` +
                 `<p>${cordsWhereWeAre}</p>` +
-                `<img src="https://cdn-icons-png.flaticon.com/512/0/191.png" style='height:120px; weight:120px '>`,
+                `<img src="http://localhost:3001/loc.png" style='height:120px; weight:120px '>`,
             ],
           },
           {
@@ -63,7 +62,7 @@ function MapSetPoint() {
           }
         );
         /////////////////////////////////////////////////
-        
+
         myMap.geoObjects.add(currentPlaceMark); // ставим точку на нашу карту
       });
 
@@ -96,30 +95,29 @@ function MapSetPoint() {
           let firstGeoObject = res.geoObjects.get(0);
           myPlacemark.properties.set({
             iconCaption: firstGeoObject.getAddressLine(),
-            balloonContent: firstGeoObject.getAddressLine()
+            balloonContent: firstGeoObject.getAddressLine(),
           });
-          setAddress(firstGeoObject.getAddressLine())
-          let textAddress = firstGeoObject.getAddressLine()
-          dispatch(getCords({coords,textAddress}));
+          setAddress(firstGeoObject.getAddressLine());
+          let textAddress = firstGeoObject.getAddressLine();
+          dispatch(getCords({ coords, textAddress }));
         });
-
 
         myMap.geoObjects.add(myPlacemark);
         // console.log("before dispatch", coords);
-        
+
         // Слушаем событие окончания перетаскивания на метке.
         myPlacemark.events.add("dragend", function () {
-          let coords = myPlacemark.geometry.getCoordinates()
+          let coords = myPlacemark.geometry.getCoordinates();
           ymaps.geocode(coords).then(function (res) {
-            let firstGeoObject = res.geoObjects.get(0)
+            let firstGeoObject = res.geoObjects.get(0);
             myPlacemark.properties.set({
               iconCaption: firstGeoObject.getAddressLine(),
-              balloonContent: firstGeoObject.getAddressLine()
+              balloonContent: firstGeoObject.getAddressLine(),
             });
-            setAddress(firstGeoObject.getAddressLine())
-            let textAddress = firstGeoObject.getAddressLine()
-            dispatch(getCords({coords,textAddress}));
-          })
+            setAddress(firstGeoObject.getAddressLine());
+            let textAddress = firstGeoObject.getAddressLine();
+            dispatch(getCords({ coords, textAddress }));
+          });
         });
       }
     });
@@ -138,17 +136,17 @@ function MapSetPoint() {
           preset: "twirl#redStretchyIcon",
           draggable: true,
           iconLayout: "default#imageWithContent",
-            // Своё изображение иконки метки.
-            iconImageHref: "http://localhost:3001/alert.png",
-            // Размеры метки.
-            iconImageSize: [48, 48],
-            // Смещение левого верхнего угла иконки относительно
-            // её "ножки" (точки привязки).
-            iconImageOffset: [-24, -24],
-            // Смещение слоя с содержимым относительно слоя с картинкой.
-            iconContentOffset: [35, 25],
-            // Макет содержимого.
-            iconContentLayout: MyIconContentLayout,
+          // Своё изображение иконки метки.
+          iconImageHref: "http://localhost:3001/alert.png",
+          // Размеры метки.
+          iconImageSize: [48, 48],
+          // Смещение левого верхнего угла иконки относительно
+          // её "ножки" (точки привязки).
+          iconImageOffset: [-24, -24],
+          // Смещение слоя с содержимым относительно слоя с картинкой.
+          iconContentOffset: [35, 25],
+          // Макет содержимого.
+          iconContentLayout: MyIconContentLayout,
         }
       );
     }
@@ -160,8 +158,10 @@ function MapSetPoint() {
 
   return (
     <div>
-      
-      <div className={style.map} id="map"></div>
+      <div className={style.border}>
+        <div className={style.map} id="map"></div>
+      </div>
+
       <div className={style.text}>
         <h2>Твоя выбранная точка </h2>
         <p>{address}</p>

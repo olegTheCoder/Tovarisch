@@ -20,8 +20,8 @@ function FormAddIncident() {
       coords: currentPoint.coords,
       img: upload.current.value,
     };
-
     dispatch(addNewIncident(newIncident, upload.current.files[0]));
+    dispatch(getIncidents());
   }
 
   const [inputTitle, setInputTitle] = useState("");

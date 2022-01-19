@@ -11,18 +11,34 @@ function MapAllIncidents() {
   const [address, setAddress] = useState("");
   const currentPoint = useSelector((state) => state.cords);
   let allIncidents = useSelector((state) => state.incidents);
+  console.log(allIncidents);
   const dispatch = useDispatch();
   let ymaps = window.ymaps;
   let myMap;
   let geoObjects = [];
   let navigate = useNavigate();
-  const allNearbyIncidents = useSelector((state) => state.nearby.nearbyIncidents)
+  const allNearbyIncidents = useSelector(
+    (state) => state.nearby.nearbyIncidents
+  );
 
   useEffect(() => {
     dispatch(getIncidents());
-    document.querySelector("#map").innerHTML = "";
-    ymaps.ready(init);
-  }, []);
+
+
+    setTimeout(() => {
+      if ([...document.querySelector("#map").children].length > 0) {
+        // ymaps.ready(init)
+        document.querySelector("#map").innerHTML = "";
+        ymaps.ready(init);
+      } else {
+        document.querySelector("#map").innerHTML = "";
+        ymaps.ready(init);
+      }
+    }, 500);
+
+
+    
+  }, [allIncidents]);
 
   function init() {
     const { geolocation } = ymaps;
@@ -49,9 +65,9 @@ function MapAllIncidents() {
             // Свойства
             iconContent: `МЫ ТУТ`,
             balloonContentBody: [
-              ` <h1>coords</h1>` +
+              ` <h3>Наше местоположение по IP</h3>` +
                 `<p>${cordsWhereWeAre}</p>` +
-                `<img src="https://cdn-icons-png.flaticon.com/512/0/191.png" style='height:120px; weight:120px '>`,
+                `<img src="http://localhost:3001/loc.png" style='height:120px; weight:120px '>`,
             ],
           },
           {
@@ -73,7 +89,7 @@ function MapAllIncidents() {
           }
         );
         /////////////////////////////////////////////////
-        dispatch(userPosition(cordsWhereWeAre)) // сохранинение точки для создания зоны прослушивания событий поблизости
+        dispatch(userPosition(cordsWhereWeAre)); // сохранинение точки для создания зоны прослушивания событий поблизости
         dispatch(getCords(cordsWhereWeAre)); // сохранение текущей точки в редаксе
         myMap.geoObjects.add(currentPlaceMark); // ставим точку на нашу карту
       });
@@ -98,20 +114,19 @@ function MapAllIncidents() {
       const category = allIncidents[i].category;
       let icon = null;
 
-      if (category === "tech") icon = "http://localhost:3001/hammer.png";
+      if (category === "tech") icon = "http://localhost:3001/tech.png";
       else if (category === "criminal")
-        icon = "http://localhost:3001/thief.png";
-      else icon = "http://localhost:3001/nature.png";
+        icon = "http://localhost:3001/robber.png";
+      else icon = "http://localhost:3001/natur.png";
 
-      console.log(allIncidents[i].img)
-
-      geoObjects[i] = new ymaps.Placemark( // 
+      geoObjects[i] = new ymaps.Placemark( //
         [allIncidents[i].coords[0], allIncidents[i].coords[1]],
         {
           balloonContentHeader: allIncidents[i].title,
           balloonContentBody: [
             `<div>${allIncidents[i].description}</div>` +
-              ` <br/> <button type="button" style="background: #D4145A;
+              `<div>${allIncidents[i].address}</div>` +
+              ` <br/> <button type="button" style="background: #FF6347;
           border-radius: 100px;
           color: black;
           padding: 8px;
@@ -119,7 +134,7 @@ function MapAllIncidents() {
           font-size: 14px;
           border: 1px solid transparent;
           text-align: center;" class="btn" data-id=${allIncidents[i].id}>Подробнее</button> <br/><br/>` +
-          `<br> <img src="http://localhost:3000/uploads/${allIncidents[i].img}" style='height:120px; weight:120px '> <br/>`,
+              `<br> <img src="http://localhost:3000/uploads/${allIncidents[i].img}" style='height:120px; weight:120px '> <br/>`,
           ],
         },
         {
@@ -175,16 +190,22 @@ function MapAllIncidents() {
   return (
     <div>
       <h1 className={style.text}>Здесь все происшествия пользователей</h1>
-      <div className={style.map} id="map"></div>
+      <div className={style.border}>
+        <div className={style.map} id="map"></div>
+      </div>
+
       <div className={style.text}>
-      <p>Количество происшествий рядом с вами: {allNearbyIncidents && allNearbyIncidents.length}</p>
+        <p>
+          Количество происшествий рядом с вами:{" "}
+          {allNearbyIncidents && allNearbyIncidents.length}
+        </p>
         <h2>Ваша текущая позиция</h2>
         <p>{address}</p>
         <p>
           {currentPoint[0]}, {currentPoint[1]}
         </p>
       </div>
-      <AccidentNearby/>
+      <AccidentNearby />
     </div>
   );
 }

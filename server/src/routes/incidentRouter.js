@@ -4,7 +4,7 @@ const { User, Incident, Comment, Radius } = require("../../db/models");
 // Все происшествия пользователей на главной странице
 router.route("/").get(async (req, res) => {
   const allIncidents = await Incident.findAll({ raw: true });
-  console.log("getAll");
+  console.log('get');
   res.json(allIncidents);
 });
 

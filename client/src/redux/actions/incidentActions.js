@@ -1,9 +1,7 @@
-import { ADD_INCIDENT, GET_INCIDENTS } from "../types";
+import { ADD_INCIDENT, GET_INCIDENTS , SET_INCIDENTS} from "../types";
 import axios from "axios";
 
 export const addNewIncident = (newIncident, file) => async (dispatch) => {
-  
-
   try {
     const formData = new FormData();
     for (let key in newIncident) {
@@ -17,7 +15,6 @@ export const addNewIncident = (newIncident, file) => async (dispatch) => {
       body: formData,
     });
     const newIncServer = await response.json();
-    console.log("newIncServer", newIncServer);
 
     dispatch({
       type: ADD_INCIDENT,
@@ -30,26 +27,18 @@ export const addNewIncident = (newIncident, file) => async (dispatch) => {
   }
 };
 
-export const getIncidents = (data) => async (dispatch) => {
-  const getIncFromServer = async (data) => {
-    return await axios
-      .get("http://localhost:3000/incident")
-      .then((res) => res.data);
-  };
 
-  const newInc = await getIncFromServer(data)
-  
-  for (let i = 0; i < newInc.length; i++) {
-    let rawCoords = newInc[i].coords;
-    rawCoords = rawCoords.slice(1, -1).split(",");
-    let postCoords = rawCoords.map((el) => Number(el));
-    newInc[i].coords = postCoords
-  }
 
-  dispatch({
+export const getIncidents = (value) => {
+  return {
     type: GET_INCIDENTS,
-    payload: {
-      newInc,
-    },
-  });
+    payload: value,
+  };
+};
+
+export const setIncidents = (value) => {
+  return {
+    type: SET_INCIDENTS,
+    payload: value,
+  };
 };

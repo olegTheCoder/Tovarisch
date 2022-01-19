@@ -8,8 +8,7 @@ function MapSetCircle() {
   const currentPoint = useSelector((state) => state.cords);
   const radiusRedux = useSelector((state) => state.radius);
 
-  // console.log("redux", radiusRedux);
-  // console.log('radius', radius);
+  
 
   const [address, setAddress] = useState("");
   const dispatch = useDispatch();
@@ -90,19 +89,22 @@ function MapSetCircle() {
               // Цвет заливки.
               // Последний байт (77) определяет прозрачность.
               // Прозрачность заливки также можно задать используя опцию "fillOpacity".
-              fillColor: "#DB709377",
+              fillColor: "#FFA50060",
               // Цвет обводки.
-              strokeColor: "#990066",
+              strokeColor: "#FFA500",
               // Прозрачность обводки.
               strokeOpacity: 0.8,
               // Ширина обводки в пикселях.
-              strokeWidth: 5,
+              strokeWidth: 2,
             }
           ));
         }
 
         if (Number(radiusRedux.inputRadius) > 0) {
-          myCircle = createCircle(cordsWhereWeAre, Number(radiusRedux.inputRadius)*1000 );
+          myCircle = createCircle(
+            cordsWhereWeAre,
+            Number(radiusRedux.inputRadius) * 1000
+          );
         } else {
           myCircle = createCircle(cordsWhereWeAre);
         }
@@ -146,14 +148,17 @@ function MapSetCircle() {
         );
 
         myMap.geoObjects.add(myCircle);
-        myMap.geoObjects.add(currentPlaceMark); // ставим точку на нашу карту
+        // myMap.geoObjects.add(currentPlaceMark); // ставим точку на нашу карту
         myMap.controls.add("zoomControl");
       });
   }
 
   return (
     <div>
-      <div className={style.map} id="map"></div>
+      <div className={style.border} >
+        <div className={style.map} id="map"></div>
+      </div>
+
       <div className={style.text}>
         <h2>Центральная точка радиуса </h2>
         <p>{address}</p>
