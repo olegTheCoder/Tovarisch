@@ -1,0 +1,26 @@
+.map {
+  width: 600px;
+  height: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.text {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.form {
+  margin: 50px 50px 50px 50px;
+}
+
+.mt {
+  margin-top: 50px ;
+}
+
+.img {
+  width: 100px;
+  height: 100px;
+}

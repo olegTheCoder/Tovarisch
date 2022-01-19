@@ -5,18 +5,7 @@ export const authReducer = (state = {}, action) => {
 	const { type, payload } = action
 
 	switch (type) {
-		// case USER_LOADED:
-		// case SIGN_IN:
-		// case SIGN_UP:
-		// 	const user = jwtDecode(action.token)
-		// 	return {
-		// 		...state,
-		// 		token: action.token,
-		// 		id: user.id,
-		// 		nickname: user.nickname,
-		// 		name: user.name,
-		// 		email: user.email,
-		// 	}
+
 		case USER_LOADED:
 		case SIGN_IN:
 		case SIGN_UP:
