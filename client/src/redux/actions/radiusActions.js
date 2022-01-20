@@ -54,6 +54,7 @@ export const setRadiusAndSendOnServer =
 export const getRadiusFromBack = (id) => async (dispatch, getState) => {
   const token = getState().auth.token;
 
+
   const response = await fetch(`http://localhost:3000/radius/${id}`, {
     method: "GET",
     headers: {
@@ -63,8 +64,10 @@ export const getRadiusFromBack = (id) => async (dispatch, getState) => {
   });
 
   const radius = await response.json()
-
-  let rawCoords = radius.coords;
+  console.log(radius);
+  // console.log('Прилетел феч');
+  let rawCoords = radius.point;
+  console.log('Cтрока', rawCoords);
     rawCoords = rawCoords.slice(1, -1).split(",");
           let radCoords = rawCoords.map((el) => Number(el));
 
@@ -77,6 +80,7 @@ export const getRadiusFromBack = (id) => async (dispatch, getState) => {
         textAddress: null
       }
     }
+
 
   dispatch({
     type: GET_RADIUS_SERVER,

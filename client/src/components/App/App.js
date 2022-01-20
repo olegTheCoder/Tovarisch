@@ -12,18 +12,20 @@ import Incident from "../Incident/Incident";
 import MapInCircle from "../MapInCircle/MapInCircle";
 import style from './style.module.css'
 import { getIncidents } from '../../redux/actions/incidentActions'
+import { getRadiusFromBack } from '../../redux/actions/radiusActions'
 
 function App() {
   const userID = useSelector((state) => state.auth.id)
+  const dispatch = useDispatch()
    
     useEffect(() => {
     if (userID) {
-      
+      console.log('Падает сюда')
+      dispatch(getRadiusFromBack(userID))
     }   
     }, [userID])
   
   
-	const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getIncidents())
