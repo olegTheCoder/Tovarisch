@@ -2,9 +2,6 @@ const router = require("express").Router();
 const { User, Incident, Comment, Radius } = require("../../db/models");
 const authenticateJWT = require('../middleware/authenticateJWT')
 
-
-
-
 // Все происшествия пользователей на главной странице
 router.route("/").get(async (req, res) => {
   const allIncidents = await Incident.findAll({ raw: true });
@@ -20,13 +17,6 @@ router.route("/new").post(authenticateJWT, async(req, res) => {
       let { title, description, category, address, coords ,userId} = req.body;
       console.log(req.body);
       coords = "{" + String(coords) + "}";
-      console.log(coords);
-      
-
-
-      
-
-  
       const newInc = await Incident.create({
         userId: res.locals.user.id,
         title,
@@ -51,10 +41,6 @@ router.route("/new").post(authenticateJWT, async(req, res) => {
       } else {
         let { title, description, category, address, coords,userId } = req.body;
         coords = "{" + String(coords) + "}";
-        
-        console.log(req.body);
-       
-
         const newInc = await Incident.create({
           userId: res.locals.user.id,
           title,
