@@ -2,9 +2,11 @@ import React, {useState} from 'react'
 import {useDispatch} from 'react-redux'
 import style from './style.module.css'
 import {signUp} from '../../../redux/actions/authActions'
+import {useNavigate} from 'react-router-dom'
 
 
 const SignupModal = ({active, setActive}) => {
+    const navigate = useNavigate()
 
     const [user, setUser] = useState({
         nickname: '',
@@ -26,6 +28,10 @@ const SignupModal = ({active, setActive}) => {
             email: '',
             password: '',
         })
+
+            navigate('/mapAllIncidents')
+            setActive(false)
+    
     }
 
     return (

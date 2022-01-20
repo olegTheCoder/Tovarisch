@@ -23,8 +23,8 @@ const SigninModal = ({activeIn, setActiveIn}) => {
             email: '',
             password: '',
         })
+        navigate('/mapAllIncidents') 
         setActiveIn(false)
-        navigate("/mapAllIncidents") 
     }
 
     return (

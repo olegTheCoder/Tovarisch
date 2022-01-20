@@ -64,10 +64,7 @@ export const getRadiusFromBack = (id) => async (dispatch, getState) => {
   });
 
   const radius = await response.json()
-  console.log(radius);
-  // console.log('Прилетел феч');
   let rawCoords = radius.point;
-  console.log('Cтрока', rawCoords);
     rawCoords = rawCoords.slice(1, -1).split(",");
           let radCoords = rawCoords.map((el) => Number(el));
 
