@@ -19,23 +19,51 @@ router
       res.sendStatus(500);
     }
   })
-  .post(authenticateJWT, async (req, res) => {
+  .put(authenticateJWT, async (req, res) => {
     //  добавление зоны радиуса
-    console.log("req.body POST radius", req.body);
+
+    // console.log('Айдишник пользователя', res.locals.user.id);
+
+    // console.log("req.body POST radius", req.body);
     try {
       let { inputTitle, radiusMetr, currentPoint } = req.body;
-      let coords = `{${String(currentPoint.cordsWhereWeAre[0])}, ${String(
-        currentPoint.cordsWhereWeAre[1]
+      let coordsString = `{${String(currentPoint.coords[0])},${String(
+        currentPoint.coords[1]
       )}}`;
-      const newRad = await Radius.create({
+      console.log('До создания');
+      const newRad = await Radius.update({
+        title: inputTitle,
         radius: radiusMetr,
-        point: coords,
-        userId: res.locals.user.id,
-      });
+        point: coordsString,
+      }, { where: {
+        userId: res.locals.user.id
+      },
+    });
+    
+      console.log(newRad);
       return res.status(200);
+      console.log(newRad);
+      // return res.json(newRad)
     } catch (err) {
+      console.log(err);
       res.sendStatus(500);
     }
   });
+  router.route("/:id")
+  .get(authenticateJWT, async (req, res) => {
+    const {id} = req.params
+    try {
+      const userRadius = await Radius.findOne({
+        where: {
+          userId: id,
+        },
+      });
+      // console.log("OUR RADUIS", userRadius);
+      res.json(userRadius)
+    } catch (err) {
+      console.log("djkdkdkdkdkd",err);
+      res.sendStatus(500);
+    }
+  })
 
 module.exports = router;

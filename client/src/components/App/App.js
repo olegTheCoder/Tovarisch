@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import RegistrationPage from '../../pages/RegistrationPage/RegistrationPage'
 import AuthorizationPage from '../../pages/AuthorizationPage/AuthorizationPage'
 import { useEffect } from 'react'
@@ -11,16 +11,26 @@ import SetCirclePage from "../../pages/SetCirclePage/SetCirclePage";
 import Incident from "../Incident/Incident";
 import MapInCircle from "../MapInCircle/MapInCircle";
 import style from './style.module.css'
-
+import { getIncidents } from '../../redux/actions/incidentActions'
 
 function App() {
-
-
+  const userID = useSelector((state) => state.auth.id)
+   
+    useEffect(() => {
+    if (userID) {
+      
+    }   
+    }, [userID])
+  
+  
 	const dispatch = useDispatch()
 
-  
+  useEffect(() => {
+    dispatch(getIncidents())
+  }, [])
 
 	useEffect(() => {
+    
 		dispatch(loadUser())
 	}, [dispatch])
 

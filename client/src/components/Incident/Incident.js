@@ -21,4 +21,3 @@ const { id } = useParams()
 }
 
 export default Incident
-

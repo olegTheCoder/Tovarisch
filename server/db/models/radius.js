@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   Radius.init(
     {
+      title: {
+        type: DataTypes.TEXT,
+      },
       point: {
         type: DataTypes.TEXT,
       },
