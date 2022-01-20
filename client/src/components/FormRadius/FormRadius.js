@@ -6,6 +6,7 @@ import { setRadiusAndSendOnServer} from "../../redux/actions/radiusActions";
 
 function FormRadius() {
   const currentPoint = useSelector((state) => state.cords);
+  // const id = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [inputTitle, setInputTitle] = useState("");
   const [inputRadius, setInputRadius] = useState("");
@@ -18,7 +19,7 @@ function FormRadius() {
     console.log(newZone, 'handleSubmit');
     dispatch(setRadius(newZone));
 
-    // dispatch(setRadiusAndSendOnServer(newZone));
+    dispatch(setRadiusAndSendOnServer(newZone));
    
   }
 

@@ -11,6 +11,7 @@ const initState = {
   cords: [],
   incidents: [],
   radius: [],
+  comment: [],
   nearby: {}, // Точка юзера и события поблизости
 	auth: {
 		token: localStorage.getItem('token'),

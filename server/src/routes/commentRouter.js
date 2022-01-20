@@ -1,30 +1,35 @@
-const router = require('express').Router();
-const { Comment } = require('../../db/models')
+const router = require("express").Router();
+const { Comment } = require("../../db/models");
+const authenticateJWT = require("../middleware/authenticateJWT");
 
+router
+  .route("/:id")
+  .get(authenticateJWT, async (req, res) => {
+    try {
+      const allCommentsForIncident = await Comment.findAll({
+        raw: true,
+        where: { incidentId: req.params.id },
+      });
+      console.log("allCommentsForIncident", allCommentsForIncident);
+      return res.status(200).json(allCommentsForIncident);
+    } catch (err) {
+      res.sendStatus(500);
+    }
+  })
+  .post(authenticateJWT, async (req, res) => {
+    console.log("jwt user", res.locals.user);
+    try {
+      const {} = req.body;
 
-// router
-//   .route('/:id')
-//   .get(async (req, res) => {
-//     const allComments = await Comment.findAll({ raw: true })
-//     console.log('getAll');
-//     res.json(allIncidents);
-//   })
-
-// Создание новой записи
-// router
-//   .route('/new')
-//   .post( async (req, res) => {    
-//     console.log(req.body.inc);               
-//     if (!req.files || Object.keys(req.files).length === 0) {
-//       try {
-//         let { title, description, category, address, coords } = req.body.inc
-//         coords = '{' + String(coords[0]) + ', ' + String(coords[1]) + '}'
-//         console.log(coords);
-//         const newInc = await Incident.create({ title, description, category, address, coords})
-//         return res.status(200).json(newInc);
-//       } catch (err) {
-//         res.sendStatus(500)
-//       }
-//     })
+      const newComment = await Comment.create({
+        userId: res.locals.user.id,
+        incidentId: req.params.id,
+        text,
+      });
+      return res.status(200).json(newComment);
+    } catch (err) {
+      res.sendStatus(500);
+    }
+  });
 
 module.exports = router;

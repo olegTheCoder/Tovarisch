@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 
 const authenticateJWT = (req, res, next) => {
 	const authHeader = req.headers.authorization
-
+console.log(authHeader);
 	if (authHeader) {
 		const token = authHeader.split(' ')[1]
 
@@ -11,6 +11,7 @@ const authenticateJWT = (req, res, next) => {
 				return res.sendStatus(403)
 			}
 
+      res.locals.user = user
 			req.user = user
 			next()
 		})

@@ -1,8 +1,9 @@
 import { ADD_INCIDENT, GET_INCIDENTS , SET_INCIDENTS} from "../types";
 import axios from "axios";
 
-export const addNewIncident = (newIncident, file) => async (dispatch) => {
+export const addNewIncident = (newIncident, file) => async (dispatch, getState) => {
   try {
+    const token = getState().auth.token
     const formData = new FormData();
     for (let key in newIncident) {
       formData.append(key, newIncident[key]);
@@ -13,6 +14,9 @@ export const addNewIncident = (newIncident, file) => async (dispatch) => {
     const response = await fetch("http://localhost:3000/incident/new", {
       method: "POST",
       body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
     const newIncServer = await response.json();
 
