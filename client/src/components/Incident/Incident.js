@@ -16,6 +16,7 @@ const { id } = useParams()
       <h3>Тип события: {accident.category}</h3>
       <h3>Комментарий пользователя, создавшего событие: {accident.comments}</h3>
       <img  src={`http://localhost:3000/uploads/${accident.img}`} alt={accident.title} className={style.img}/>
+    
     </div>
   )
 }

@@ -1,17 +1,26 @@
 const router = require("express").Router();
-const { Comment } = require("../../db/models");
+const { Comment, User } = require("../../db/models");
 const authenticateJWT = require("../middleware/authenticateJWT");
 
 router
   .route("/:id")
   .get(authenticateJWT, async (req, res) => {
     try {
+      let comments = [];
       const allCommentsForIncident = await Comment.findAll({
         raw: true,
         where: { incidentId: req.params.id },
       });
       console.log("allCommentsForIncident", allCommentsForIncident);
-      return res.status(200).json(allCommentsForIncident);
+
+      for (let i = 0; i < allCommentsForIncident.length; i++) {
+        let personName = await User.findByPk(allCommentsForIncident[i].userId);
+        personName = personName.nickname;
+        comments.push({...allCommentsForIncident[i], personName})
+      }
+
+      console.log('comments', comments);
+      return res.status(200).json(comments);
     } catch (err) {
       res.sendStatus(500);
     }
