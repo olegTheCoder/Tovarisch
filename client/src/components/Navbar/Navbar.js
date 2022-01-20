@@ -14,7 +14,7 @@ function Navbar() {
             <nav className={style.nav}>
                 <div>
 
-                <Link className={style.logo} to="/home">
+                <Link className={style.logo} to="/">
                     Товарищ
                 </Link>
                 </div>
@@ -26,14 +26,14 @@ function Navbar() {
                     <Link className={style.link1} to="/mapCircle">Совпадения</Link>
 
 
-                    <Link className={style.link1} to="/home">Home</Link>
+                    {/*<Link className={style.link1} to="/home">Home</Link>*/}
                     <Link className={style.link1} to="/map">Map</Link>
                     <Link className={style.link1} to="/pc">PersonAc</Link>
 
 
 
                     <button className={`${style.modalModal} ${style.link1}`}
-                            onClick={() => setModalActive(true)}>signin
+                            onClick={() => setModalActive(true)}>signup
                     </button>
 
 
