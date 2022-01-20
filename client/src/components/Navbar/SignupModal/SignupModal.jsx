@@ -1,13 +1,14 @@
 import React, {useState} from 'react'
-import style from './style.module.css'
 import {useDispatch} from 'react-redux'
-import {signIn} from '../../../redux/actions/authActions'
-import { useNavigate } from 'react-router-dom'
+import style from './style.module.css'
+import {signUp} from '../../../redux/actions/authActions'
 
 
-const SigninModal = ({activeIn, setActiveIn}) => {
-  const navigate = useNavigate()
+const SignupModal = ({active, setActive}) => {
+
     const [user, setUser] = useState({
+        nickname: '',
+        name: '',
         email: '',
         password: '',
     })
@@ -17,29 +18,37 @@ const SigninModal = ({activeIn, setActiveIn}) => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        dispatch(signIn(user))
+        dispatch(signUp(user))
 
         setUser({
+            nickname: '',
+            name: '',
             email: '',
             password: '',
         })
-        setActiveIn(false)
-        navigate("/mapAllIncidents") 
     }
 
     return (
-        <div className={activeIn ? `${style.modal} ${style.active}` : style.modal} onClick={() => setActiveIn(false)}>
-            <div className={activeIn ? style.modal__content : style.modal} onClick={e => e.stopPropagation()}>
+        <div className={active ? `${style.modal} ${style.active}` : style.modal} onClick={() => setActive(false)}>
+            <div className={active ? style.modal__content : style.modal} onClick={e => e.stopPropagation()}>
                 <form id="lalala" onSubmit={handleSubmit} className="m-5">
                     {/*<label htmlFor="email" className="email">Email</label>*/}
-
+                    <input type="name" onChange={(e) => setUser({...user, nickname: e.target.value})}
+                           className="form-control mb-2"
+                           id="exampleInputNickname"
+                           value={user.nickname}
+                           placeholder="nickname"/>
                     <input type="email" onChange={(e) => setUser({...user, email: e.target.value})}
                            className="form-control mb-2"
                            id="exampleInputEmail"
                            value={user.email}
                            placeholder="Email"/>
                     {/*<label htmlFor="name" className="email">Name</label>*/}
-
+                    <input type="name" onChange={(e) => setUser({...user, name: e.target.value})}
+                           className="form-control mb-2"
+                           id="exampleInputName"
+                           value={user.name}
+                           placeholder="Name"/>
                     {/*<label htmlFor="password" className="email">Password</label>*/}
                     <input type="password" onChange={(e) => setUser({...user, password: e.target.value})}
                            className="form-control mb-2"
@@ -50,8 +59,7 @@ const SigninModal = ({activeIn, setActiveIn}) => {
                 </form>
             </div>
         </div>
-
     )
 }
 
-export default SigninModal
+export default SignupModal
