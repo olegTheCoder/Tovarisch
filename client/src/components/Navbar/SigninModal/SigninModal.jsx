@@ -37,14 +37,14 @@ const SigninModal = ({active, setActive}) => {
                            id="exampleInputNickname"
                            value={user.nickname}
                            placeholder="nickname"/>
-                    <input type="email" onChange={(e) => setUser({ ...user, name: e.target.value })} className="form-control mb-2"
+                    <input type="email" onChange={(e) => setUser({ ...user, email: e.target.value })} className="form-control mb-2"
                            id="exampleInputEmail"
-                           value={user.name}
+                           value={user.email}
                            placeholder="Email"/>
                     {/*<label htmlFor="name" className="email">Name</label>*/}
-                    <input type="name" onChange={(e) => setUser({ ...user, email: e.target.value })} className="form-control mb-2"
+                    <input type="name" onChange={(e) => setUser({ ...user, name: e.target.value })} className="form-control mb-2"
                            id="exampleInputName"
-                           value={user.email}
+                           value={user.name}
                            placeholder="Name"/>
                     {/*<label htmlFor="password" className="email">Password</label>*/}
                     <input type="password" onChange={(e) => setUser({ ...user, password: e.target.value })} className="form-control mb-2"

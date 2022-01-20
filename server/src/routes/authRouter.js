@@ -31,8 +31,9 @@ console.log(req.body);
 			}
 			const hashedPass = await bcrypt.hash(password, 10)
 		 	const newUser = await User.create({ nickname, name, email, password: hashedPass })
-       req.session.userId = newUser.id
-       
+       // req.session.userId = newUser.id
+
+			// console.log(newUser)
 			const message = {
 				to: email,
 				subject: 'Поздравляем! Вы успешно зарегистрировались на нашем сайте.',
@@ -51,6 +52,7 @@ console.log(req.body);
       console.log(accessToken);
 			return res.json({ accessToken })
 		} catch (error) {
+			console.log(error)
 			return res.sendStatus(500)
 		}
 	} else {

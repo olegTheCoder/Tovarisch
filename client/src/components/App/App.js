@@ -7,7 +7,6 @@ import { loadUser } from '../../redux/actions/authActions'
 import Navbar from "../Navbar/Navbar";
 import MapAllPage from "../../pages/MapAllPage/MapAllPage";
 import MapSetPointPage from "../../pages/MapSetPointPage/MapSetPointPage";
-import TestPage from "../../pages/TestPage/TestPage";
 import SetCirclePage from "../../pages/SetCirclePage/SetCirclePage";
 import Incident from "../Incident/Incident";
 import MapInCircle from "../MapInCircle/MapInCircle";
@@ -30,7 +29,6 @@ function App() {
 	<div className={style.abc}>
 	<Navbar />
       <Routes>
-        <Route path="/" element={<TestPage />} />
         <Route path="/mapAllIncidents" element={<MapAllPage />} />
         <Route path="/mapSetPoint" element={<MapSetPointPage />} />
         <Route path="/mapSetCircle" element={<SetCirclePage />} />
