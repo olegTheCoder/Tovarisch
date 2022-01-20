@@ -1,27 +1,28 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import style from './style.module.css'
 import {useDispatch, useSelector} from 'react-redux'
-import {addNewComment} from '../../redux/actions/commentActions'
-import {useParams} from 'react-router-dom'
+import {addNewComment, getComment} from '../../redux/actions/commentActions'
 
 const Comment = ({id, accident}) => {
 
-    let now = new Date().toLocaleString()
 
     const [text, setText] = useState('')
     const {title, description, category, comments, img} = accident
-
+    const comment = useSelector((state) => state.comment)
 
 
     const dispatch = useDispatch()
 
     const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(addNewComment({id, text}))
+        dispatch(addNewComment(text, id))
         setText('')
     }
 
-    const comment = useSelector((state) => state.comment)
+    useEffect(() => {
+        dispatch(getComment(id))
+    }, [])
+
     // console.log(comment)
 
 
@@ -45,37 +46,17 @@ const Comment = ({id, accident}) => {
                             <div className={style.commentText}>
                                 {comment.map((el) => {
                                     return (
-                                        <>
-                                            <p className="">{el}</p>
-                                            <span className={`date ${style.subText}`}>{now}</span>
-                                        </>
+                                        <div key={el.id}>
+                                            <p className="">{el.text}</p>
+                                            <div className="aaa">{el.nickname}</div>
+                                        </div>
                                     )
 
                                 })}
 
                             </div>
                         </li>
-                        <li>
-                            <div className={style.commenterImage}>
-                                <img src="http://placekitten.com/45/45"/>
-                            </div>
-                            <div className={style.commentText}>
-                                <p className="">Hello this is a test comment and this comment is particularly very long
-                                    and it goes on and on and on.</p> <span
-                                className={`date ${style.subText}`}>{now}</span>
-
-                            </div>
-                        </li>
-                        <li>
-                            <div className={style.commenterImage}>
-                                <img src="http://placekitten.com/40/40"/>
-                            </div>
-                            <div className={style.commentText}>
-                                <p className="">Hello this is a test comment.</p> <span
-                                className={`date ${style.subText}`}>{now}</span>
-
-                            </div>
-                        </li>
+                        
                     </ul>
                     <div className="form-inline" role="form">
                         <form onSubmit={submitHandler} className={style.formGroup}>
