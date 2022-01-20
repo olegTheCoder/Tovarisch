@@ -188,23 +188,29 @@ function MapAllIncidents() {
   }, []);
 
   return (
-    <div>
-      <h1 className={style.text}>Здесь все происшествия пользователей</h1>
+    <div className={style.mapWrapper}>
+
       <div className={style.border}>
         <div className={style.map} id="map"></div>
       </div>
+      <div className={style.mapLeft}>
+        <h1 className={style.text}>Здесь все происшествия пользователей</h1>
+        <div className={style.text}>
+          <p>
+            Количество происшествий рядом с вами:{" "}
+            {allNearbyIncidents && allNearbyIncidents.length}
+          </p>
+          <h2>Ваша текущая позиция</h2>
+          <p>{address}</p>
+          <p>
+            {currentPoint[0]}, {currentPoint[1]}
+          </p>
 
-      <div className={style.text}>
-        <p>
-          Количество происшествий рядом с вами:{" "}
-          {allNearbyIncidents && allNearbyIncidents.length}
-        </p>
-        <h2>Ваша текущая позиция</h2>
-        <p>{address}</p>
-        <p>
-          {currentPoint[0]}, {currentPoint[1]}
-        </p>
+
+        </div>
       </div>
+
+
       <AccidentNearby />
     </div>
   );

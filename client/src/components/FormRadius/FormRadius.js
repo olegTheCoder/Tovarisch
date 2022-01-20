@@ -36,7 +36,8 @@ function FormRadius() {
   
 
   return (
-    <div>
+    <div className={style.form}>
+
       <form onSubmit={handleSubmit} className={style.form}>
         <h2>Название зоны</h2>
         <input 
@@ -49,13 +50,7 @@ function FormRadius() {
        
         <h2 className={style.mt}>Установите радиус</h2>
         
-        {/* <input
-          onChange={handleRadius}
-          type="text"
-          value={inputRadius}
-          name='radius'
-          aria-describedby="text"
-        /> */}
+
 
 <input type="range" onChange={handleRadius} value={inputRadius} name='radius' className="form-range" min="1" max="15" id="customRange2"/>
         <br/>

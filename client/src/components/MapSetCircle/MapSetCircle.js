@@ -158,11 +158,6 @@ function MapSetCircle() {
       <div className={style.border} >
         <div className={style.map} id="map"></div>
       </div>
-
-      <div className={style.text}>
-        <h2>Центральная точка радиуса </h2>
-        <p>{address}</p>
-      </div>
     </div>
   );
 }

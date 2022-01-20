@@ -1,0 +1,83 @@
+.button {
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: red;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #fae214;
+    margin: 20px;
+}
+
+.button:hover {
+    background-color: #e2ac02
+}
+
+.button:active {
+    background-color: #e2ac02;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+
+.modal {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+
+.modal.active {
+    display: flex;
+    justify-content: center;
+    opacity: 1;
+    /* transform: scale(1); */
+    pointer-events: all;
+    background-color: rgba(0, 0, 0, 0.8)
+}
+
+.modal__content {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 12px;
+    background-image: url("../../../image/sm3.jpeg");
+    /*background-size: 700px;*/
+    background-position-x: right;
+    background-position-y: center;
+    /*background-color: lightblue;*/
+    height: 60%;
+    max-height: 800px;
+    width: 70%;
+    max-width: 800px;
+    transform: scale(1);
+    transition: 0.4s all;
+}
+
+
+#lalala {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 20px;
+
+    /*margin-top: 30vh;*/
+
+}
+
+

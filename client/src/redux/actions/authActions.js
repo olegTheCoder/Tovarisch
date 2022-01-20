@@ -2,7 +2,7 @@ import { SIGN_IN, SIGN_OUT, SIGN_UP, USER_LOADED } from '../types'
 const { REACT_APP_API_URL: API, REACT_APP_API_PORT: PORT, REACT_APP_API_AUTH_ENDPOINT: AUTH } = process.env
 
 export const signUp = (formData) => async (dispatch) => {
-	const response = await fetch(`${API}:${PORT}/${AUTH}/signup`, {
+	const response = await fetch("http://localhost:3000/auth/signup", {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

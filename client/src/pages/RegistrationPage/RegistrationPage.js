@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { signUp } from '../../redux/actions/authActions'
 
 function RegistrationPage() {
-	const auth = useSelector((state) => state)
-	console.log(auth)
 	const [user, setUser] = useState({
 		nickname: '',
 		name: '',

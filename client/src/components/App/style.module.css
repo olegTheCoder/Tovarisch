@@ -1,0 +1,35 @@
+.mainContainer{
+    height: 100vh;
+
+}
+
+
+.abc {
+    min-height: 100vh;
+    background-image: url("../../image/122.jpeg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    overflow: hidden;
+}
+
+
+@font-face {
+    font-family: Durik;
+    src: local('Durik'),
+    url("../../fonts/Durik/Durik.ttf");
+}
+
+@font-face {
+    font-family: Molot;
+    src: url("../../fonts/molot/Molot.otf");
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Durik Molot cursive;
+}
+
