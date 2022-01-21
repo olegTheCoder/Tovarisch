@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import RegistrationPage from '../../pages/RegistrationPage/RegistrationPage'
 import AuthorizationPage from '../../pages/AuthorizationPage/AuthorizationPage'
 import { useEffect } from 'react'
@@ -11,16 +11,28 @@ import SetCirclePage from "../../pages/SetCirclePage/SetCirclePage";
 import Incident from "../Incident/Incident";
 import MapInCircle from "../MapInCircle/MapInCircle";
 import style from './style.module.css'
-
+import { getIncidents } from '../../redux/actions/incidentActions'
+import { getRadiusFromBack } from '../../redux/actions/radiusActions'
 
 function App() {
-
-
-	const dispatch = useDispatch()
-
+  const userID = useSelector((state) => state.auth.id)
+  const dispatch = useDispatch()
+   
+    useEffect(() => {
+    if (userID) {
+      console.log('Падает сюда')
+      dispatch(getRadiusFromBack(userID))
+    }   
+    }, [userID])
+  
   
 
+  useEffect(() => {
+    dispatch(getIncidents())
+  }, [])
+
 	useEffect(() => {
+    
 		dispatch(loadUser())
 	}, [dispatch])
 

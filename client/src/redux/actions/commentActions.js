@@ -11,7 +11,7 @@ export const getComment = (id) => async (dispatch, getState) => {
   });
 
   const commentFromBack = await response.json();
-
+  console.log(commentFromBack)
   dispatch({
     type: GET_COMMENT,
     payload: {
@@ -29,7 +29,7 @@ export const addNewComment = (comment, id) => async (dispatch, getState) => {
       Authorization: `Bearer ${token}`,
       "Content-type": "application/json",
     },
-    body: JSON.stringify(comment),
+    body: JSON.stringify({comment}),
   });
 
   const newCommentFromBack = await response.json();

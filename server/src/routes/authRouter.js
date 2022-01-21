@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const mailer = require('../../nodemailer')
 
-const { User } = require('../../db/models')
+const { User, Radius } = require('../../db/models')
 
 
 const generateAccessToken = (id, nickname, name, email) => {
@@ -31,9 +31,15 @@ console.log(req.body);
 			}
 			const hashedPass = await bcrypt.hash(password, 10)
 		 	const newUser = await User.create({ nickname, name, email, password: hashedPass })
-       // req.session.userId = newUser.id
+      const newRadius = {
+        title: 'Центр',
+        point: '{55.752175,37.619509}',
+        radius: 0, 
+        userId: newUser.id,
 
-			// console.log(newUser)
+      }
+      await Radius.create(newRadius)
+			// console.log("НОВЫЙ ЮЗЕР",newUser)
 			const message = {
 				to: email,
 				subject: 'Поздравляем! Вы успешно зарегистрировались на нашем сайте.',
@@ -47,7 +53,8 @@ console.log(req.body);
 				<p>Данное письмо не требует ответа.</p>
 				`,
 			}
-			mailer(message)
+			// mailer(message)
+
 			const accessToken = await generateAccessToken(newUser.id, newUser.nickname, newUser.name, newUser.email)
       console.log(accessToken);
 			return res.json({ accessToken })

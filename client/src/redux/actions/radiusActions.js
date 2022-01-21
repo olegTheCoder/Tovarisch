@@ -1,4 +1,4 @@
-import { SET_RADIUS,GET_RADIUS } from "../types";
+import { SET_RADIUS,GET_RADIUS, GET_RADIUS_SERVER } from "../types";
 import axios from "axios";
 
 export const setRadius = (radius) => async (dispatch) => {
@@ -15,7 +15,7 @@ export const setRadiusAndSendOnServer =
     const token = getState().auth.token;
 
     const response = await fetch("http://localhost:3000/radius", {
-      method: "POST",
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-type": "application/json",
@@ -24,11 +24,25 @@ export const setRadiusAndSendOnServer =
     });
 
     const radius = await response.json();
+    
+    let rawCoords = radius.coords;
+    rawCoords = rawCoords.slice(1, -1).split(",");
+          let radCoords = rawCoords.map((el) => Number(el));
+
+
+    const courRadius = {
+      inputTitle: radius.title,
+      radiusMetr: radius.radius,
+      currentPoint: {
+        CordsWhereWeAre: radCoords,
+        textAddress: null
+      }
+    }
 
     dispatch({
       type: SET_RADIUS,
       payload: {
-        radius,
+        courRadius,
       },
     });
   };
@@ -37,22 +51,41 @@ export const setRadiusAndSendOnServer =
 
 // функционал получения радиуса с бэка по айди пользователя
 
-export const getRadiusFromBack = () => async (dispatch, getState) => {
+export const getRadiusFromBack = (id) => async (dispatch, getState) => {
   const token = getState().auth.token;
 
-  const response = await fetch("http://localhost:3000/radius", {
+
+  const response = await fetch(`http://localhost:3000/radius/${id}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
+      "Content-type": "application/json",
     },
   });
 
-  const radius = await response.json();
+  const radius = await response.json()
+  console.log(radius);
+  // console.log('Прилетел феч');
+  let rawCoords = radius.point;
+  console.log('Cтрока', rawCoords);
+    rawCoords = rawCoords.slice(1, -1).split(",");
+          let radCoords = rawCoords.map((el) => Number(el));
+
+
+    const courRadius = {
+      inputTitle: radius.title,
+      radiusMetr: radius.radius,
+      currentPoint: {
+        CordsWhereWeAre: radCoords,
+        textAddress: null
+      }
+    }
+
 
   dispatch({
-    type: GET_RADIUS,
+    type: GET_RADIUS_SERVER,
     payload: {
-      radius,
+      courRadius,
     },
   });
 };

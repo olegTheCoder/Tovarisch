@@ -6,6 +6,7 @@ const authenticateJWT = require('../middleware/authenticateJWT')
 router.route("/").get(async (req, res) => {
   const allIncidents = await Incident.findAll({ raw: true });
   console.log("get");
+  // console.log(allIncidents)
   res.json(allIncidents);
 });
 

@@ -10,7 +10,7 @@ const sagaMiddleware = createSagaMiddleware();
 const initState = {
   cords: [],
   incidents: [],
-  radius: [],
+  radius: {},
   comment: [],
   nearby: {}, // Точка юзера и события поблизости
 	auth: {

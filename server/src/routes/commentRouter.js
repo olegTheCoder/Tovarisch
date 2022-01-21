@@ -38,38 +38,29 @@ try{
       // const arrOfNicknames= allComments.map((el)=> el.nickname = el['User.nickname'])
 // const {'User.nickname': nickname } = allCommentsForIncident[0]
 
-const newArr = allCommentsForIncident.map(({'User.nickname': nickname,id, text, userId,incidentId}) => ({nickname, id, text, userId,incidentId}) )
+let comments = allCommentsForIncident.map(({'User.nickname': nickname, id, text, userId, incidentId}) => ({nickname, id, text, userId,incidentId}) )
 
-console.log(newArr);
+    res.status(200).json(comments);
 
 
 }catch (err) {
     res.sendStatus(500);
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
   })
   .post(authenticateJWT, async (req, res) => {
     console.log("jwt user", res.locals.user);
     try {
-      const {} = req.body;
+        console.log(req.body)
+      const {comment} = req.body;
+        console.log(comment)
 
       const newComment = await Comment.create({
         userId: res.locals.user.id,
         incidentId: req.params.id,
-        text,
+        text: comment,
       });
+        console.log('===========>',newComment)
       return res.status(200).json(newComment);
     } catch (err) {
       res.sendStatus(500);

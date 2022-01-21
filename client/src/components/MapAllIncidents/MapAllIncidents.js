@@ -23,7 +23,7 @@ function MapAllIncidents() {
 
   useEffect(() => {
     dispatch(getIncidents());
-
+    
 
     setTimeout(() => {
       if ([...document.querySelector("#map").children].length > 0) {
