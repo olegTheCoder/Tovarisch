@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import style from "./style.module.css";
 import { setRadius } from "../../redux/actions/radiusActions";
 import { setRadiusAndSendOnServer} from "../../redux/actions/radiusActions";
+import { Navigate, useNavigate } from "react-router-dom"
 
 function FormRadius() {
   const currentPoint = useSelector((state) => state.cords);
-  // const id = useSelector((state) => state.auth);
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const [inputTitle, setInputTitle] = useState("");
   const [inputRadius, setInputRadius] = useState("");
@@ -21,6 +22,7 @@ function FormRadius() {
 
     dispatch(setRadiusAndSendOnServer(newZone));
    
+    navigate('/mapCircle')
   }
 
 

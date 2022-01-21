@@ -20,7 +20,6 @@ function App() {
    
     useEffect(() => {
     if (userID) {
-      console.log('Падает сюда')
       dispatch(getRadiusFromBack(userID))
     }   
     }, [userID])

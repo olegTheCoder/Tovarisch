@@ -39,7 +39,6 @@ console.log(req.body);
 
       }
       await Radius.create(newRadius)
-			// console.log("НОВЫЙ ЮЗЕР",newUser)
 			const message = {
 				to: email,
 				subject: 'Поздравляем! Вы успешно зарегистрировались на нашем сайте.',
@@ -53,7 +52,7 @@ console.log(req.body);
 				<p>Данное письмо не требует ответа.</p>
 				`,
 			}
-			// mailer(message)
+			mailer(message)
 
 			const accessToken = await generateAccessToken(newUser.id, newUser.nickname, newUser.name, newUser.email)
       console.log(accessToken);

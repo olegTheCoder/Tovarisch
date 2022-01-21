@@ -54,5 +54,6 @@ export const loadUser = () => (dispatch, getState) => {
 export const signOut = () => (dispatch) => {
 	dispatch({
 		type: SIGN_OUT,
+		payload: null
 	})
 }

@@ -5,10 +5,12 @@ import {addNewComment, getComment} from '../../redux/actions/commentActions'
 
 const Comment = ({id, accident}) => {
 
-
+    
     const [text, setText] = useState('')
     const {title, description, category, comments, img} = accident
     const comment = useSelector((state) => state.comment)
+	const user = useSelector((state) => state.auth)
+	const isLoggedIn = Object.values(user).every((value) => value !== null)
 
 
     const dispatch = useDispatch()
@@ -48,7 +50,7 @@ const Comment = ({id, accident}) => {
                                     return (
                                         <div key={el.id}>
                                             <p className="">{el.text}</p>
-                                            <div className="aaa">{el.nickname}</div>
+                                            <i><div className="aaa">{el.nickname}</div></i>
                                         </div>
                                     )
 
@@ -59,6 +61,7 @@ const Comment = ({id, accident}) => {
                         
                     </ul>
                     <div className="form-inline" role="form">
+                        {isLoggedIn && (
                         <form onSubmit={submitHandler} className={style.formGroup}>
                             <input value={text} onChange={(e) => setText(e.target.value)} className="form-control"
                                    type="text" placeholder="Your comments"/>
@@ -66,6 +69,7 @@ const Comment = ({id, accident}) => {
                                 <button type="submit" className="btn btn-danger">Add</button>
                             </div>
                         </form>
+                        )}
                     </div>
                 </div>
             </div>

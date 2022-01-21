@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import style from "./style.module.css";
 import { addNewIncident } from "../../redux/actions/incidentActions";
 import { getIncidents } from "../../redux/actions/incidentActions";
+import { useNavigate } from "react-router-dom"
 
 function FormAddIncident() {
   const currentPoint = useSelector((state) => state.cords);
-  // const id = useSelector((state) => state.auth);
-  // console.log('id', id.id);
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   dispatch(getIncidents());
   const upload = useRef();
@@ -25,6 +25,7 @@ function FormAddIncident() {
     };
     dispatch(addNewIncident(newIncident, upload.current.files[0]));
     dispatch(getIncidents());
+    navigate('/mapAllIncidents') 
   }
 
   const [inputTitle, setInputTitle] = useState("");
@@ -55,7 +56,7 @@ function FormAddIncident() {
   return (
     <div>
       <form onSubmit={handleSubmit} className={style.form}>
-        <h2>Тема</h2>
+        <h2>Название события</h2>
         <input
           onChange={handleTitle}
           type="text"
