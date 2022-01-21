@@ -68,7 +68,9 @@ const Comment = ({id, accident}) => {
                                 <input value={text} onChange={(e) => setText(e.target.value)} className="form-control"
                                        type="text" placeholder="Напишите комментарий"/>
                                 <div className="formGroup">
-                                    <button type="submit" className="send btn btn-danger">Отправить телеграмму</button>
+                                    <button type="submit" className="send btn btn-danger"
+                                    >Отправить телеграмму
+                                    </button>
                                 </div>
                             </form>
                         )}

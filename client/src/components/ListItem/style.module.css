@@ -1,4 +1,36 @@
-.form {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(8px);
+@font-face {
+    font-family: Durik;
+    src: url("../../fonts/Durik/Durik.ttf");
+}
+
+@font-face {
+    font-family: Molot;
+    src: url("../../fonts/molot/Molot.otf");
+}
+
+
+.li {
+    background-color: rgba(0, 0, 0, 0.1);
+    /*backdrop-filter: blur(8px);*/
+    color: black;
+    font-size: 30px;
+    font-family: Durik, "Apple Braille", serif;
+    margin-left: 40px;
+}
+
+.li:active {
+    color: black;
+    background-color: rgba(0, 0, 0, 0.2);
+
+}
+
+.li:visited {
+    color: black;
+
+}
+
+
+li {
+    list-style-type: none;
+
 }

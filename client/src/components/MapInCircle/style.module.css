@@ -1,5 +1,16 @@
-.input {
-    color: red;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(8px);
+@font-face {
+    font-family: Durik;
+    src: url("../../fonts/Durik/Durik.ttf");
 }
+
+@font-face {
+    font-family: Molot;
+    src: url("../../fonts/molot/Molot.otf");
+}
+
+.list {
+    /*background-color: red;*/
+}
+
+
+

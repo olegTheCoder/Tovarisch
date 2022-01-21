@@ -1,5 +1,4 @@
 import { ADD_INCIDENT, GET_INCIDENTS , SET_INCIDENTS} from "../types";
-import axios from "axios";
 
 export const addNewIncident = (newIncident, file) => async (dispatch, getState) => {
   try {

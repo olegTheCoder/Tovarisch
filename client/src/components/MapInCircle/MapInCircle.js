@@ -120,7 +120,7 @@ function MapInCircle() {
             {mathchedIncidents.length ? (
                 <div>
                     <h2>События, произошедшие в зоне {myRadius.inputTitle}</h2>
-                    <ul>
+                    <ul className={style.list}>
                         {mathchedIncidents.map((el, index) => (
                             <ListItem key={el.id} index={index} {...el} />
                         ))}
