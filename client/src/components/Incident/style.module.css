@@ -24,7 +24,7 @@
 .detailBox {
     display: flex;
     flex-direction: column;
-    background-image: url("../../image/gazeta2.jpeg");
+    /*background-image: url("../../image/gazeta2.jpeg");*/
     /*background-repeat: no-repeat;*/
     background-attachment: fixed;
     background-size: 1000px;

@@ -29,9 +29,9 @@ const SignupModal = ({active, setActive}) => {
             password: '',
         })
 
-            navigate('/mapAllIncidents')
-            setActive(false)
-    
+        navigate('/')
+        setActive(false)
+
     }
 
     return (
