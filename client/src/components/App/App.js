@@ -13,6 +13,7 @@ import MapInCircle from "../MapInCircle/MapInCircle";
 import style from './style.module.css'
 import { getIncidents } from '../../redux/actions/incidentActions'
 import { getRadiusFromBack } from '../../redux/actions/radiusActions'
+import Home from '../../pages/Home/Home'
 
 function App() {
   const userID = useSelector((state) => state.auth.id)
@@ -37,9 +38,11 @@ function App() {
 
 	return (
 
-	<div className={style.abc}>
+	<div className={style.abc} >
 	<Navbar />
+  
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/mapAllIncidents" element={<MapAllPage />} />
         <Route path="/mapSetPoint" element={<MapSetPointPage />} />
         <Route path="/mapSetCircle" element={<SetCirclePage />} />

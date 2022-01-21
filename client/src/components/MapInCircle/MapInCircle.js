@@ -114,7 +114,7 @@ function MapInCircle() {
 
   return (
     <>
-      <div id="map" style={{ width: "500px", height: "500px" }}></div>
+      <div id="map" style={{ width: "0px", height: "0px" }}></div>
       {mathchedIncidents.length ? (
         <div>
           <h2>События, произошедшие в зоне {myRadius.inputTitle}</h2>

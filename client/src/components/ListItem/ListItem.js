@@ -1,11 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import style from './style.module.css'
+
 
 
 function ListItem({index, title, description, id}) {
   return (
     <>
-      <li className="list-group-item"><Link to={`/incident/${id}`}>{index+1}. Заголовок: {title}. Описание: {description}</Link></li>
+      <li className={style.back} className="list-group-item"><Link to={`/incident/${id}`}>{index+1}. Заголовок: {title}. Описание: {description}</Link></li>
     </>
   )
 }
