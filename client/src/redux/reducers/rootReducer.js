@@ -2,9 +2,9 @@ import { combineReducers } from "redux";
 import { cordsReducer } from "./cordsReducer";
 import { incidentsReducer } from "./incidentsReducer";
 import { radiusReducer } from "./radiusReducer";
-import { nearbyReducer } from "./nearbyReducer"
-import { authReducer } from './authReducer'
-import {commentReducer} from './commentReducer'
+import { nearbyReducer } from "./nearbyReducer";
+import { authReducer } from "./authReducer";
+import { commentReducer } from "./commentReducer";
 
 export const rootReducer = combineReducers({
   cords: cordsReducer,
@@ -14,4 +14,3 @@ export const rootReducer = combineReducers({
   nearby: nearbyReducer,
   auth: authReducer,
 });
-

@@ -1,10 +1,9 @@
 import { SIGN_IN, SIGN_OUT, SIGN_UP, USER_LOADED } from "../types";
-const { REACT_APP_API_URL, REACT_APP_API_PORT, REACT_APP_API_AUTH_ENDPOINT } =
-  process.env;
+const { REACT_APP_API_URL, REACT_APP_API_PORT } = process.env;
 
 export const signUp = (formData) => async (dispatch) => {
   const response = await fetch(
-    `${REACT_APP_API_URL}:${REACT_APP_API_PORT}/${REACT_APP_API_AUTH_ENDPOINT}/signup`,
+    `${REACT_APP_API_URL}:${REACT_APP_API_PORT}/auth/signup`,
     {
       method: "POST",
       headers: {
@@ -26,7 +25,7 @@ export const signUp = (formData) => async (dispatch) => {
 
 export const signIn = (formData) => async (dispatch) => {
   const response = await fetch(
-    `${REACT_APP_API_URL}:${REACT_APP_API_PORT}/${REACT_APP_API_AUTH_ENDPOINT}/signin`,
+    `${REACT_APP_API_URL}:${REACT_APP_API_PORT}/auth/signin`,
     {
       method: "POST",
       headers: {

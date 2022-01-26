@@ -7,7 +7,7 @@ export const nearbyReducer = (state = {}, action) => {
       const { cords } = payload;
       return {
         ...state,
-        userCords: [...cords]
+        userCords: [...cords],
       };
     }
 
@@ -15,9 +15,9 @@ export const nearbyReducer = (state = {}, action) => {
       const { nearbyIncidents } = payload;
       return {
         ...state,
-        nearbyIncidents: [...nearbyIncidents]
-      }
-    };
+        nearbyIncidents: [...nearbyIncidents],
+      };
+    }
 
     default: {
       return state;

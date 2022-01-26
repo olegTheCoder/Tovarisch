@@ -1,5 +1,5 @@
-import { SET_RADIUS,GET_RADIUS, GET_RADIUS_SERVER } from "../types";
-import axios from "axios";
+import { SET_RADIUS, GET_RADIUS_SERVER } from "../types";
+const { REACT_APP_API_URL, REACT_APP_API_PORT } = process.env;
 
 export const setRadius = (radius) => async (dispatch) => {
   dispatch({
@@ -14,30 +14,32 @@ export const setRadiusAndSendOnServer =
   (dataRadius) => async (dispatch, getState) => {
     const token = getState().auth.token;
 
-    const response = await fetch("http://localhost:3000/radius", {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(dataRadius),
-    });
+    const response = await fetch(
+      `${REACT_APP_API_URL}:${REACT_APP_API_PORT}/radius`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(dataRadius),
+      }
+    );
 
     const radius = await response.json();
-    
+
     let rawCoords = radius.coords;
     rawCoords = rawCoords.slice(1, -1).split(",");
-          let radCoords = rawCoords.map((el) => Number(el));
-
+    let radCoords = rawCoords.map((el) => Number(el));
 
     const courRadius = {
       inputTitle: radius.title,
       radiusMetr: radius.radius,
       currentPoint: {
         CordsWhereWeAre: radCoords,
-        textAddress: null
-      }
-    }
+        textAddress: null,
+      },
+    };
 
     dispatch({
       type: SET_RADIUS,
@@ -47,37 +49,33 @@ export const setRadiusAndSendOnServer =
     });
   };
 
-
-
-// функционал получения радиуса с бэка по айди пользователя
-
 export const getRadiusFromBack = (id) => async (dispatch, getState) => {
   const token = getState().auth.token;
 
-
-  const response = await fetch(`http://localhost:3000/radius/${id}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-type": "application/json",
-    },
-  });
-
-  const radius = await response.json()
-  let rawCoords = radius.point;
-    rawCoords = rawCoords.slice(1, -1).split(",");
-          let radCoords = rawCoords.map((el) => Number(el));
-
-
-    const courRadius = {
-      inputTitle: radius.title,
-      radiusMetr: radius.radius,
-      currentPoint: {
-        CordsWhereWeAre: radCoords,
-        textAddress: null
-      }
+  const response = await fetch(
+    `${REACT_APP_API_URL}:${REACT_APP_API_PORT}/radius/${id}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-type": "application/json",
+      },
     }
+  );
 
+  const radius = await response.json();
+  let rawCoords = radius.point;
+  rawCoords = rawCoords.slice(1, -1).split(",");
+  let radCoords = rawCoords.map((el) => Number(el));
+
+  const courRadius = {
+    inputTitle: radius.title,
+    radiusMetr: radius.radius,
+    currentPoint: {
+      CordsWhereWeAre: radCoords,
+      textAddress: null,
+    },
+  };
 
   dispatch({
     type: GET_RADIUS_SERVER,

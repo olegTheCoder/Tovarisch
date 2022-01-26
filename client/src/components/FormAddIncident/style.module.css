@@ -8,14 +8,13 @@
 }
 
 .text {
-    margin-top: 30px;
+    margin-top: 0px;
     text-align: center;
 }
 
 .form {
     display: flex;
     flex-direction: row;
-    align-items: center;
     justify-content: center;
     margin: 50px 50px 50px 50px;
 }
@@ -23,24 +22,33 @@
 .formNoImg {
     margin-right: 30px;
     font-family: "Zapf Dingbats" cursive;
+    width: 350px;
 }
 
 .formImg {
-    margin-left: 30px;
+    margin-top: 30px;
+    font-size: 20px;
 }
 
 .mt {
-    margin-top: 50px;
+    margin-top: 30px;
+    margin-left: 0;
 }
 
 .img {
-    width: 100px;
-    height: 100px;
+  margin: 10px 0;
+    max-width: 200px;
+    max-height: 200px;
 }
 
 .input {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  padding: 0;
+  width: 300px;
 }
 
-
+.select {
+  margin-top: 40px;
+  font-size: 20px;
+}

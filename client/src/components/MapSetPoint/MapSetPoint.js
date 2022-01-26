@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import style from "./style.module.css";
 import { getCords } from "../../redux/actions/cordsActions";
 import { useDispatch, useSelector } from "react-redux";
+const { REACT_APP_API_URL, REACT_APP_API_FRONTPORT } = process.env;
 
 function MapSetPoint() {
   const currentPoint = useSelector((state) => state.cords);
@@ -31,39 +32,29 @@ function MapSetPoint() {
       .then((result) => {
         const cordsWhereWeAre = result.geoObjects.position;
 
-        // текущая точка, которая подгружается из браузера по айпи
         let currentPlaceMark = new ymaps.Placemark(
           cordsWhereWeAre,
           {
-            // Свойства
             iconContent: `МЫ ТУТ`,
             balloonContentBody: [
               `  <h3>Наше местоположение по IP</h3>` +
                 `<p>${cordsWhereWeAre}</p>` +
-                `<img src="http://localhost:3001/loc.png" style='height:120px; weight:120px '>`,
+                `<img src="${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/loc.png" style='height:120px; weight:120px '>`,
             ],
           },
           {
-            // Опции
-            preset: "twirl#redStretchyIcon", // иконка растягивается под контент
+            preset: "twirl#redStretchyIcon",
 
             iconLayout: "default#imageWithContent",
-            // Своё изображение иконки метки.
-            iconImageHref: "http://localhost:3001/loc.png",
-            // Размеры метки.
+            iconImageHref: `${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/loc.png`,
             iconImageSize: [48, 48],
-            // Смещение левого верхнего угла иконки относительно
-            // её "ножки" (точки привязки).
             iconImageOffset: [-24, -24],
-            // Смещение слоя с содержимым относительно слоя с картинкой.
             iconContentOffset: [35, 25],
-            // Макет содержимого.
             iconContentLayout: MyIconContentLayout,
           }
         );
-        /////////////////////////////////////////////////
 
-        myMap.geoObjects.add(currentPlaceMark); // ставим точку на нашу карту
+        myMap.geoObjects.add(currentPlaceMark);
       });
 
     myMap = new ymaps.Map(
@@ -78,17 +69,12 @@ function MapSetPoint() {
       }
     );
 
-    //////////////////////////////////////////////////////////////////
-    // Поиск по клику
     myMap.events.add("click", function (e) {
       let coords = e.get("coords");
 
-      // Если метка уже создана – просто передвигаем ее.
       if (myPlacemark) {
         myPlacemark.geometry.setCoordinates(coords);
-      }
-      // Если нет – создаем.
-      else {
+      } else {
         myPlacemark = createPlacemark(coords);
 
         ymaps.geocode(coords).then(function (res) {
@@ -103,9 +89,7 @@ function MapSetPoint() {
         });
 
         myMap.geoObjects.add(myPlacemark);
-        // console.log("before dispatch", coords);
 
-        // Слушаем событие окончания перетаскивания на метке.
         myPlacemark.events.add("dragend", function () {
           let coords = myPlacemark.geometry.getCoordinates();
           ymaps.geocode(coords).then(function (res) {
@@ -136,22 +120,14 @@ function MapSetPoint() {
           preset: "twirl#redStretchyIcon",
           draggable: true,
           iconLayout: "default#imageWithContent",
-          // Своё изображение иконки метки.
-          iconImageHref: "http://localhost:3001/alert.png",
-          // Размеры метки.
+          iconImageHref: `${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/alert.png`,
           iconImageSize: [48, 48],
-          // Смещение левого верхнего угла иконки относительно
-          // её "ножки" (точки привязки).
           iconImageOffset: [-24, -24],
-          // Смещение слоя с содержимым относительно слоя с картинкой.
           iconContentOffset: [35, 25],
-          // Макет содержимого.
           iconContentLayout: MyIconContentLayout,
         }
       );
     }
-
-    ///////////////////////////////////////////////////////////////
 
     myMap.controls.add("zoomControl");
   }
@@ -160,12 +136,7 @@ function MapSetPoint() {
     <div>
       <div className={style.border}>
         <div className={style.map} id="map"></div>
-      <div className={style.text}>
-        <h2>Твоя выбранная точка </h2>
-        <p>{address}</p>
       </div>
-      </div>
-
     </div>
   );
 }

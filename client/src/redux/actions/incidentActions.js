@@ -1,36 +1,39 @@
-import { ADD_INCIDENT, GET_INCIDENTS , SET_INCIDENTS} from "../types";
+import { ADD_INCIDENT, GET_INCIDENTS, SET_INCIDENTS } from "../types";
+const { REACT_APP_API_URL, REACT_APP_API_PORT } = process.env;
 
-export const addNewIncident = (newIncident, file) => async (dispatch, getState) => {
-  try {
-    const token = getState().auth.token
-    const formData = new FormData();
-    for (let key in newIncident) {
-      formData.append(key, newIncident[key]);
-    }
-
-    formData.append("file", file);
-
-    const response = await fetch("http://localhost:3000/incident/new", {
-      method: "POST",
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${token}`
+export const addNewIncident =
+  (newIncident, file) => async (dispatch, getState) => {
+    try {
+      const token = getState().auth.token;
+      const formData = new FormData();
+      for (let key in newIncident) {
+        formData.append(key, newIncident[key]);
       }
-    });
-    const newIncServer = await response.json();
 
-    dispatch({
-      type: ADD_INCIDENT,
-      payload: {
-        newIncServer,
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
+      formData.append("file", file);
 
+      const response = await fetch(
+        `${REACT_APP_API_URL}:${REACT_APP_API_PORT}/incident/new`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const newIncServer = await response.json();
 
+      dispatch({
+        type: ADD_INCIDENT,
+        payload: {
+          newIncServer,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 export const getIncidents = (value) => {
   return {

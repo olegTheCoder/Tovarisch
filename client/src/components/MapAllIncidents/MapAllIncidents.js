@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { getIncidents } from "../../redux/actions/incidentActions";
 import AccidentNearby from "../AccidentNearby/AccidentNearby";
 import { userPosition } from "../../redux/actions/nearbyActions";
+const { REACT_APP_API_URL, REACT_APP_API_FRONTPORT, REACT_APP_API_PORT } =
+  process.env;
 
 function MapAllIncidents() {
   const [address, setAddress] = useState("");
@@ -22,11 +24,9 @@ function MapAllIncidents() {
 
   useEffect(() => {
     dispatch(getIncidents());
-    
 
     setTimeout(() => {
       if ([...document.querySelector("#map").children].length > 0) {
-        // ymaps.ready(init)
         document.querySelector("#map").innerHTML = "";
         ymaps.ready(init);
       } else {
@@ -34,9 +34,6 @@ function MapAllIncidents() {
         ymaps.ready(init);
       }
     }, 500);
-
-
-    
   }, [allIncidents]);
 
   function init() {
@@ -57,40 +54,30 @@ function MapAllIncidents() {
           setAddress(firstGeoObject.getAddressLine());
         });
 
-        // текущая точка, которая подгружается из браузера по айпи
         let currentPlaceMark = new ymaps.Placemark(
           cordsWhereWeAre,
           {
-            // Свойства
             iconContent: `МЫ ТУТ`,
             balloonContentBody: [
               ` <h3>Наше местоположение по IP</h3>` +
                 `<p>${cordsWhereWeAre}</p>` +
-                `<img src="http://localhost:3001/loc.png" style='height:120px; weight:120px '>`,
+                `<img src="${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/loc.png" style='height:120px; weight:120px '>`,
             ],
           },
           {
-            // Опции
-            preset: "twirl#redStretchyIcon", // иконка растягивается под контент
+            preset: "twirl#redStretchyIcon",
 
             iconLayout: "default#imageWithContent",
-            // Своё изображение иконки метки.
-            iconImageHref: "http://localhost:3001/loc.png",
-            // Размеры метки.
+            iconImageHref: `${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/loc.png`,
             iconImageSize: [48, 48],
-            // Смещение левого верхнего угла иконки относительно
-            // её "ножки" (точки привязки).
             iconImageOffset: [-24, -24],
-            // Смещение слоя с содержимым относительно слоя с картинкой.
             iconContentOffset: [35, 25],
-            // Макет содержимого.
             iconContentLayout: MyIconContentLayout,
           }
         );
-        /////////////////////////////////////////////////
-        dispatch(userPosition(cordsWhereWeAre)); // сохранинение точки для создания зоны прослушивания событий поблизости
-        dispatch(getCords(cordsWhereWeAre)); // сохранение текущей точки в редаксе
-        myMap.geoObjects.add(currentPlaceMark); // ставим точку на нашу карту
+        dispatch(userPosition(cordsWhereWeAre));
+        dispatch(getCords(cordsWhereWeAre));
+        myMap.geoObjects.add(currentPlaceMark);
       });
 
     myMap = new ymaps.Map(
@@ -106,17 +93,15 @@ function MapAllIncidents() {
     );
     myMap.controls.add("zoomControl");
 
-    ////////////////////////////////////////////////////////////////////////
-    // отображение всех точек из базы данных
-
     for (let i = 0; i < allIncidents.length; i++) {
       const category = allIncidents[i].category;
       let icon = null;
 
-      if (category === "tech") icon = "http://localhost:3001/tech.png";
+      if (category === "tech")
+        icon = `${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/tech.png`;
       else if (category === "criminal")
-        icon = "http://localhost:3001/robber.png";
-      else icon = "http://localhost:3001/natur.png";
+        icon = `${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/robber.png`;
+      else icon = `${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/natur.png`;
 
       geoObjects[i] = new ymaps.Placemark( //
         [allIncidents[i].coords[0], allIncidents[i].coords[1]],
@@ -133,34 +118,25 @@ function MapAllIncidents() {
           font-size: 14px;
           border: 1px solid transparent;
           text-align: center;" class="btn" data-id=${allIncidents[i].id}>Подробнее</button> <br/><br/>` +
-              `<br> <img src="http://localhost:3000/uploads/${allIncidents[i].img}" style='height:120px; weight:120px '> <br/>`,
+              `<br> <img src="${REACT_APP_API_URL}:${REACT_APP_API_PORT}/uploads/${allIncidents[i].img}" style='height:120px; weight:120px '> <br/>`,
           ],
         },
         {
-          // Опции
-          preset: "twirl#redStretchyIcon", // иконка растягивается под контент
+          preset: "twirl#redStretchyIcon",
           iconLayout: "default#imageWithContent",
-          // Своё изображение иконки метки.
           iconImageHref: icon,
-          // Размеры метки.
           iconImageSize: [48, 48],
-          // Смещение левого верхнего угла иконки относительно
-          // её "ножки" (точки привязки).
           iconImageOffset: [-24, -24],
-          // Смещение слоя с содержимым относительно слоя с картинкой.
           iconContentOffset: [35, 25],
-          // Макет содержимого.
           iconContentLayout: MyIconContentLayout,
         }
       );
     }
-    ////////////////////////////////////////////////////////////////////////
-    // добавим кластеризацию
 
     let clusterer = new ymaps.Clusterer({
       clusterIcons: [
         {
-          href: "http://localhost:3001/alert.png",
+          href: `${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/alert.png`,
           size: [40, 40],
           offset: [-20, -20],
         },
@@ -169,8 +145,6 @@ function MapAllIncidents() {
 
     clusterer.add(geoObjects);
     myMap.geoObjects.add(clusterer);
-
-    ////////////////////////////////////////////////////////////////////////
   }
 
   function detailOnMap(event) {
@@ -188,7 +162,6 @@ function MapAllIncidents() {
 
   return (
     <div className={style.mapWrapper}>
-
       <div className={style.border}>
         <div className={style.map} id="map"></div>
       </div>
@@ -204,12 +177,8 @@ function MapAllIncidents() {
           <p>
             {currentPoint[0]}, {currentPoint[1]}
           </p>
-
-
         </div>
       </div>
-
-
       <AccidentNearby />
     </div>
   );

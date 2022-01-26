@@ -12,23 +12,20 @@ const initState = {
   incidents: [],
   radius: {},
   comment: [],
-  nearby: {}, // Точка юзера и события поблизости
-	auth: {
-		token: localStorage.getItem('token'),
-		id: null,
-		nickname: null,
-		name: null,
-		email: null,
-	},
+  nearby: {},
+  auth: {
+    token: localStorage.getItem("token"),
+    id: null,
+    nickname: null,
+    name: null,
+    email: null,
+  },
 };
-
 
 export const store = createStore(
   rootReducer,
   initState,
-  composeWithDevTools(applyMiddleware(sagaMiddleware,thunk))
+  composeWithDevTools(applyMiddleware(sagaMiddleware, thunk))
 );
-
-
 
 sagaMiddleware.run(rootSaga);

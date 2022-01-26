@@ -14,9 +14,8 @@ export const radiusReducer = (state = [], action) => {
     }
 
     case GET_RADIUS_SERVER: {
-      const { courRadius } = payload
-      return courRadius
-      
+      const { courRadius } = payload;
+      return courRadius;
     }
 
     default: {
