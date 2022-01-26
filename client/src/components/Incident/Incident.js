@@ -12,22 +12,23 @@ function Incident() {
 
     return (
         <div className={style.windowForm}>
-            <div className={style.detailBox}>
+            <>
+                <div className={style.detailBox}>
 
-                <div className={style.boxInfo}>
-                    <h2>Заголовок события: {accident.title}</h2>
-                    <h3>Описание события: {accident.description}</h3>
-                    <h3>Тип события: {accident.category}</h3>
-                    {/*<h3>Комментарий пользователя, создавшего событие: {accident.comments}</h3>*/}
-                    <img src={`http://localhost:3000/uploads/${accident.img}`} alt={accident.title}
-                         className={style.img}/>
+                    <div className={style.boxInfo}>
+                        <h2>Заголовок события: {accident.title}</h2>
+                        <h3>Описание события: {accident.description}</h3>
+                        <h3>Тип события: {accident.category}</h3>
+                        {/*<h3>Комментарий пользователя, создавшего событие: {accident.comments}</h3>*/}
+                        <img src={`http://localhost:3000/uploads/${accident.img}`} alt={accident.title}
+                             className={style.img}/>
 
+                    </div>
                 </div>
-            </div>
-            <div className={style.comment}>
-                <Comment id={id} accident={accident}/>
-            </div>
-
+                <div className={style.comment}>
+                    <Comment id={id} accident={accident}/>
+                </div>
+            </>
         </div>
     )
 }

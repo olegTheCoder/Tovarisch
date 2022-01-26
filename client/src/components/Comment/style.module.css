@@ -84,6 +84,11 @@
     font-family: Durik, cursive;
 }
 
+.send {
+    font-family: Molot, cursive;
+    font-size: 20px;
+}
+
 .subText {
     color: red;
     font-family: Molot, cursive;

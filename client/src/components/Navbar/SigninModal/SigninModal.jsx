@@ -2,11 +2,11 @@ import React, {useState} from 'react'
 import style from './style.module.css'
 import {useDispatch} from 'react-redux'
 import {signIn} from '../../../redux/actions/authActions'
-import { useNavigate } from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 
 const SigninModal = ({activeIn, setActiveIn}) => {
-  const navigate = useNavigate()
+    const navigate = useNavigate()
     const [user, setUser] = useState({
         email: '',
         password: '',
@@ -23,7 +23,7 @@ const SigninModal = ({activeIn, setActiveIn}) => {
             email: '',
             password: '',
         })
-        navigate('/') 
+        navigate('/')
         setActiveIn(false)
     }
 
