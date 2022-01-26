@@ -1,0 +1,26 @@
+.map {
+    width: 550px;
+    height: 550px;
+    margin: 1px;
+}
+
+.text {
+    margin-top: 10px;
+    text-align: center;
+
+}
+
+.border {
+
+    background-color: rgba(255, 255, 255, 0.2);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-top: auto;
+    width: 570px;
+    height: 570px;
+    border-width: 10px;
+    border-color: rgb(255, 134, 134);
+    border-style: solid;
+    border-radius: 10px;
+}
