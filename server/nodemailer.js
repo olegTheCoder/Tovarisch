@@ -21,7 +21,6 @@ const mailer = (message) => {
 		if (err) {
 			return console.log(err)
 		}
-		console.log('Email sent', info)
 	})
 }
 

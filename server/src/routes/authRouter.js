@@ -1,48 +1,52 @@
-const router = require('express').Router()
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const mailer = require('../../nodemailer')
+const router = require("express").Router();
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const mailer = require("../../nodemailer");
 
-const { User, Radius } = require('../../db/models')
-
+const { User, Radius } = require("../../db/models");
 
 const generateAccessToken = (id, nickname, name, email) => {
-	const payload = {
-		id: id,
-		nickname: nickname,
-		name: name,
-		email: email,
-	}
-	return jwt.sign(payload, process.env.ACCESS_TOKEN)
-}
+  const payload = {
+    id: id,
+    nickname: nickname,
+    name: name,
+    email: email,
+  };
+  return jwt.sign(payload, process.env.ACCESS_TOKEN);
+};
 
-router.post('/signup', async (req, res) => {
-	const { nickname, name, email, password } = req.body
-console.log(req.body);
-	if (nickname && name && email && password) {
-		try {
-			const emailExists = await User.findOne({ where: { email } })
-			if (emailExists) {
-				return res.json({ message: 'Пользователь с таким почтовым адрессом уже зарегистрирован' })
-			}
-			const nicknameExists = await User.findOne({ where: { nickname } })
-			if (nicknameExists) {
-				return res.json({ message: 'Такой никнейм занят' })
-			}
-			const hashedPass = await bcrypt.hash(password, 10)
-		 	const newUser = await User.create({ nickname, name, email, password: hashedPass })
-      const newRadius = {
-        title: 'Центр',
-        point: '{55.752175,37.619509}',
-        radius: 0, 
-        userId: newUser.id,
-
+router.post("/signup", async (req, res) => {
+  const { nickname, name, email, password } = req.body;
+  if (nickname && name && email && password) {
+    try {
+      const emailExists = await User.findOne({ where: { email } });
+      if (emailExists) {
+        return res.json({
+          message: "Пользователь с таким почтовым адрессом уже зарегистрирован",
+        });
       }
-      await Radius.create(newRadius)
-			const message = {
-				to: email,
-				subject: 'Поздравляем! Вы успешно зарегистрировались на нашем сайте.',
-				html: `
+      const nicknameExists = await User.findOne({ where: { nickname } });
+      if (nicknameExists) {
+        return res.json({ message: "Такой никнейм занят" });
+      }
+      const hashedPass = await bcrypt.hash(password, 10);
+      const newUser = await User.create({
+        nickname,
+        name,
+        email,
+        password: hashedPass,
+      });
+      const newRadius = {
+        title: "Центр",
+        point: "{55.752175,37.619509}",
+        radius: 0,
+        userId: newUser.id,
+      };
+      await Radius.create(newRadius);
+      const message = {
+        to: email,
+        subject: "Поздравляем! Вы успешно зарегистрировались на нашем сайте.",
+        html: `
 				<h2>Поздравляем! Вы успешно зарегистрировались на нашем сайте.</h2>
 				<i>данные вашей учетной записи</i>:
 				<ul>
@@ -51,43 +55,52 @@ console.log(req.body);
 				</ul>
 				<p>Данное письмо не требует ответа.</p>
 				`,
-			}
-			mailer(message)
+      };
+      mailer(message);
 
-			const accessToken = await generateAccessToken(newUser.id, newUser.nickname, newUser.name, newUser.email)
-      console.log(accessToken);
-			return res.json({ accessToken })
-		} catch (error) {
-			console.log(error)
-			return res.sendStatus(500)
-		}
-	} else {
-		return res.sendStatus(400)
-	}
-})
+      const accessToken = await generateAccessToken(
+        newUser.id,
+        newUser.nickname,
+        newUser.name,
+        newUser.email
+      );
+      return res.json({ accessToken });
+    } catch (error) {
+      console.log(error);
+      return res.sendStatus(500);
+    }
+  } else {
+    return res.sendStatus(400);
+  }
+});
 
-router.post('/signin', async (req, res) => {
-	const { email, password } = req.body
-  console.log(req.body);
-	if (email && password) {
-		try {
-			const currentUser = await User.findOne({ where: { email }, raw: true })
-			if (currentUser && (await bcrypt.compare(password, currentUser.password))) {
-				const accessToken = generateAccessToken(currentUser.id, currentUser.nickname, currentUser.name, currentUser.email)
+router.post("/signin", async (req, res) => {
+  const { email, password } = req.body;
+  if (email && password) {
+    try {
+      const currentUser = await User.findOne({ where: { email }, raw: true });
+      if (
+        currentUser &&
+        (await bcrypt.compare(password, currentUser.password))
+      ) {
+        const accessToken = generateAccessToken(
+          currentUser.id,
+          currentUser.nickname,
+          currentUser.name,
+          currentUser.email
+        );
         return res.json({
-					accessToken,
-				})
-			} else {
-				return res.sendStatus(401)
-			}
-		} catch (error) {
-			return res.sendStatus(500)
-		}
-	} else {
-		return res.sendStatus(400)
-	}
-})
+          accessToken,
+        });
+      } else {
+        return res.sendStatus(401);
+      }
+    } catch (error) {
+      return res.sendStatus(500);
+    }
+  } else {
+    return res.sendStatus(400);
+  }
+});
 
-
-
-module.exports = router
+module.exports = router;

@@ -11,7 +11,6 @@ function MapAllIncidents() {
   const [address, setAddress] = useState("");
   const currentPoint = useSelector((state) => state.cords);
   let allIncidents = useSelector((state) => state.incidents);
-  console.log(allIncidents);
   const dispatch = useDispatch();
   let ymaps = window.ymaps;
   let myMap;

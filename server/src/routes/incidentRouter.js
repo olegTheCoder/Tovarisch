@@ -1,22 +1,21 @@
 const router = require("express").Router();
-const { User, Incident, Comment, Radius } = require("../../db/models");
-const authenticateJWT = require('../middleware/authenticateJWT')
+const { Incident } = require("../../db/models");
+const authenticateJWT = require("../middleware/authenticateJWT");
 
-// Все происшествия пользователей на главной странице
 router.route("/").get(async (req, res) => {
-  const allIncidents = await Incident.findAll({ raw: true });
-  console.log("get");
-  // console.log(allIncidents)
-  res.json(allIncidents);
+  try {
+    const allIncidents = await Incident.findAll({ raw: true });
+    res.json(allIncidents);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
 });
 
-// Создание новой записи
-router.route("/new").post(authenticateJWT, async(req, res) => {
-  console.log(res.locals.user);
+router.route("/new").post(authenticateJWT, async (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     try {
-      let { title, description, category, address, coords ,userId} = req.body;
-      console.log(req.body);
+      let { title, description, category, address, coords } = req.body;
       coords = "{" + String(coords) + "}";
       const newInc = await Incident.create({
         userId: res.locals.user.id,
@@ -28,6 +27,7 @@ router.route("/new").post(authenticateJWT, async(req, res) => {
       });
       return res.status(200).json(newInc);
     } catch (err) {
+      console.log(err);
       res.sendStatus(500);
     }
   } else {
@@ -40,7 +40,7 @@ router.route("/new").post(authenticateJWT, async(req, res) => {
         console.log(err);
         return res.status(500).send(err);
       } else {
-        let { title, description, category, address, coords,userId } = req.body;
+        let { title, description, category, address, coords } = req.body;
         coords = "{" + String(coords) + "}";
         const newInc = await Incident.create({
           userId: res.locals.user.id,
@@ -51,7 +51,6 @@ router.route("/new").post(authenticateJWT, async(req, res) => {
           coords,
           img: fullname,
         });
-        console.log("newInc", newInc);
         return res.status(200).json(newInc);
       }
     });

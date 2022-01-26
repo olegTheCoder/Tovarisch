@@ -74,7 +74,7 @@ function Navbar() {
 					</div>
 
 					{isLoggedIn && (
-						<Link className={style.link1} to='/pc' onClick={handleSignOut}>
+						<Link className={style.link1} to='/' onClick={handleSignOut}>
 							Выйти
 						</Link>
 					)}
