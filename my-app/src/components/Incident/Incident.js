@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import style from "./style.module.css";
 import Comment from "../Comment/Comment";
-const { REACT_APP_API_URL, REACT_APP_API_PORT } = process.env;
+const { REACT_APP_API_URL } = process.env;
 
 function Incident() {
   const { id } = useParams();
@@ -19,7 +19,7 @@ function Incident() {
             <h3>Описание события: {accident.description}</h3>
             <h3>Тип события: {accident.category}</h3>
             <img
-              src={`${REACT_APP_API_URL}:${REACT_APP_API_PORT}/uploads/${accident.img}`}
+              src={`${REACT_APP_API_URL}/uploads/${accident.img}`}
               alt={accident.title}
               className={style.img}
             />

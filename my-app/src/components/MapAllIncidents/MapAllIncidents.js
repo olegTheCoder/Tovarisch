@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { getIncidents } from "../../redux/actions/incidentActions";
 import AccidentNearby from "../AccidentNearby/AccidentNearby";
 import { userPosition } from "../../redux/actions/nearbyActions";
-const { REACT_APP_API_URLFRONT } = process.env;
+const { REACT_APP_API_URLFRONT, REACT_APP_API_URL } = process.env;
 
 function MapAllIncidents() {
   const [address, setAddress] = useState("");
@@ -118,7 +118,7 @@ function MapAllIncidents() {
           font-size: 14px;
           border: 1px solid transparent;
           text-align: center;" class="btn" data-id=${allIncidents[i].id}>Подробнее</button> <br/><br/>` +
-              `<br> <img src="${REACT_APP_API_URLFRONT}/uploads/${allIncidents[i].img}" style='height:120px; weight:120px '> <br/>`,
+              `<br> <img src="${REACT_APP_API_URL}/uploads/${allIncidents[i].img}" style='height:120px; weight:120px '> <br/>`,
           ],
         },
         {
