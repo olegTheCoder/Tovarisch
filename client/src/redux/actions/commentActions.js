@@ -1,11 +1,11 @@
 import { ADD_COMMENT, GET_COMMENT } from "../types";
-const { REACT_APP_API_URL, REACT_APP_API_PORT } = process.env;
+const { REACT_APP_API_URL } = process.env;
 
 export const getComment = (id) => async (dispatch, getState) => {
   const token = getState().auth.token;
 
   const response = await fetch(
-    `${REACT_APP_API_URL}:${REACT_APP_API_PORT}/comment/${id}`,
+    `${REACT_APP_API_URL}/comment/${id}`,
     {
       method: "GET",
       headers: {
@@ -28,7 +28,7 @@ export const addNewComment = (comment, id) => async (dispatch, getState) => {
   const token = getState().auth.token;
 
   const response = await fetch(
-    `${REACT_APP_API_URL}:${REACT_APP_API_PORT}/comment/${id}`,
+    `${REACT_APP_API_URL}/comment/${id}`,
     {
       method: "POST",
       headers: {

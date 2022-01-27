@@ -2,9 +2,10 @@ import { call, put, throttle } from 'redux-saga/effects'
 import { GET_INCIDENTS, SET_INCIDENTS } from '../types'
 import axios from 'axios'
 import { setIncidents } from '../actions/incidentActions'
+const { REACT_APP_API_URL } = process.env;
 
 const incFromBack = () => {
-	return axios.get('http://localhost:3000/incident').then((res) => res.data)
+	return axios.get(`${REACT_APP_API_URL}/incident`).then((res) => res.data)
 }
 
 function* incSagaWorker(action) {

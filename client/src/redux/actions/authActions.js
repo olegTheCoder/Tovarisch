@@ -1,18 +1,15 @@
 import { SIGN_IN, SIGN_OUT, SIGN_UP, USER_LOADED } from "../types";
-const { REACT_APP_API_URL, REACT_APP_API_PORT } = process.env;
+const { REACT_APP_API_URL } = process.env;
 
 export const signUp = (formData) => async (dispatch) => {
-  const response = await fetch(
-    `${REACT_APP_API_URL}:${REACT_APP_API_PORT}/auth/signup`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-      body: JSON.stringify(formData),
-    }
-  );
+  const response = await fetch(`${REACT_APP_API_URL}/auth/signup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      credentials: "include",
+    },
+    body: JSON.stringify(formData),
+  });
 
   const accessToken = await response.json();
   localStorage.setItem("token", accessToken.accessToken);
@@ -24,17 +21,14 @@ export const signUp = (formData) => async (dispatch) => {
 };
 
 export const signIn = (formData) => async (dispatch) => {
-  const response = await fetch(
-    `${REACT_APP_API_URL}:${REACT_APP_API_PORT}/auth/signin`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-      body: JSON.stringify(formData),
-    }
-  );
+  const response = await fetch(`${REACT_APP_API_URL}/auth/signin`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      credentials: "include",
+    },
+    body: JSON.stringify(formData),
+  });
 
   const accessToken = await response.json();
   localStorage.setItem("token", accessToken.accessToken);

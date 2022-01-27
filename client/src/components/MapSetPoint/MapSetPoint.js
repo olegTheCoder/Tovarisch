@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import style from "./style.module.css";
 import { getCords } from "../../redux/actions/cordsActions";
 import { useDispatch, useSelector } from "react-redux";
-const { REACT_APP_API_URL, REACT_APP_API_FRONTPORT } = process.env;
+const { REACT_APP_API_URLFRONT } = process.env;
 
 function MapSetPoint() {
   const currentPoint = useSelector((state) => state.cords);
@@ -39,14 +39,14 @@ function MapSetPoint() {
             balloonContentBody: [
               `  <h3>Наше местоположение по IP</h3>` +
                 `<p>${cordsWhereWeAre}</p>` +
-                `<img src="${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/loc.png" style='height:120px; weight:120px '>`,
+                `<img src="${REACT_APP_API_URLFRONT}/loc.png" style='height:120px; weight:120px '>`,
             ],
           },
           {
             preset: "twirl#redStretchyIcon",
 
             iconLayout: "default#imageWithContent",
-            iconImageHref: `${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/loc.png`,
+            iconImageHref: `${REACT_APP_API_URLFRONT}/loc.png`,
             iconImageSize: [48, 48],
             iconImageOffset: [-24, -24],
             iconContentOffset: [35, 25],
@@ -120,7 +120,7 @@ function MapSetPoint() {
           preset: "twirl#redStretchyIcon",
           draggable: true,
           iconLayout: "default#imageWithContent",
-          iconImageHref: `${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/alert.png`,
+          iconImageHref: `${REACT_APP_API_URLFRONT}/alert.png`,
           iconImageSize: [48, 48],
           iconImageOffset: [-24, -24],
           iconContentOffset: [35, 25],

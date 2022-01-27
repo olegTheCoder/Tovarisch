@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { getIncidents } from "../../redux/actions/incidentActions";
 import AccidentNearby from "../AccidentNearby/AccidentNearby";
 import { userPosition } from "../../redux/actions/nearbyActions";
-const { REACT_APP_API_URL, REACT_APP_API_FRONTPORT, REACT_APP_API_PORT } =
-  process.env;
+const { REACT_APP_API_URLFRONT } = process.env;
 
 function MapAllIncidents() {
   const [address, setAddress] = useState("");
@@ -61,14 +60,14 @@ function MapAllIncidents() {
             balloonContentBody: [
               ` <h3>Наше местоположение по IP</h3>` +
                 `<p>${cordsWhereWeAre}</p>` +
-                `<img src="${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/loc.png" style='height:120px; weight:120px '>`,
+                `<img src="${REACT_APP_API_URLFRONT}/loc.png" style='height:120px; weight:120px '>`,
             ],
           },
           {
             preset: "twirl#redStretchyIcon",
 
             iconLayout: "default#imageWithContent",
-            iconImageHref: `${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/loc.png`,
+            iconImageHref: `${REACT_APP_API_URLFRONT}/loc.png`,
             iconImageSize: [48, 48],
             iconImageOffset: [-24, -24],
             iconContentOffset: [35, 25],
@@ -98,10 +97,11 @@ function MapAllIncidents() {
       let icon = null;
 
       if (category === "tech")
-        icon = `${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/tech.png`;
+        icon = `${REACT_APP_API_URLFRONT}/tech.png`;
       else if (category === "criminal")
-        icon = `${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/robber.png`;
-      else icon = `${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/natur.png`;
+        icon = `${REACT_APP_API_URLFRONT}/robber.png`;
+      else
+        icon = `${REACT_APP_API_URLFRONT}/natur.png`;
 
       geoObjects[i] = new ymaps.Placemark( //
         [allIncidents[i].coords[0], allIncidents[i].coords[1]],
@@ -118,7 +118,7 @@ function MapAllIncidents() {
           font-size: 14px;
           border: 1px solid transparent;
           text-align: center;" class="btn" data-id=${allIncidents[i].id}>Подробнее</button> <br/><br/>` +
-              `<br> <img src="${REACT_APP_API_URL}:${REACT_APP_API_PORT}/uploads/${allIncidents[i].img}" style='height:120px; weight:120px '> <br/>`,
+              `<br> <img src="${REACT_APP_API_URLFRONT}/uploads/${allIncidents[i].img}" style='height:120px; weight:120px '> <br/>`,
           ],
         },
         {
@@ -136,7 +136,7 @@ function MapAllIncidents() {
     let clusterer = new ymaps.Clusterer({
       clusterIcons: [
         {
-          href: `${REACT_APP_API_URL}:${REACT_APP_API_FRONTPORT}/alert.png`,
+          href: `${REACT_APP_API_URLFRONT}/alert.png`,
           size: [40, 40],
           offset: [-20, -20],
         },

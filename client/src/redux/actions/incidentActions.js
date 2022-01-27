@@ -1,5 +1,5 @@
 import { ADD_INCIDENT, GET_INCIDENTS, SET_INCIDENTS } from "../types";
-const { REACT_APP_API_URL, REACT_APP_API_PORT } = process.env;
+const { REACT_APP_API_URL } = process.env;
 
 export const addNewIncident =
   (newIncident, file) => async (dispatch, getState) => {
@@ -12,16 +12,13 @@ export const addNewIncident =
 
       formData.append("file", file);
 
-      const response = await fetch(
-        `${REACT_APP_API_URL}:${REACT_APP_API_PORT}/incident/new`,
-        {
-          method: "POST",
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${REACT_APP_API_URL}/incident/new`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const newIncServer = await response.json();
 
       dispatch({
