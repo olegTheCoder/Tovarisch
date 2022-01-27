@@ -2,7 +2,7 @@
 A socially important project where users can mark incidents on the Yandex.Maps.
 You can try how it works on the site https://tovarisch-demo.herokuapp.com/
 
-<img src="https://d.radikal.ru/d40/2201/32/832653afdcde.png">   
+<a target="_blank" href="https://d.radikal.ru/d40/2201/32/832653afdcde.png"><img src="https://d.radikal.ru/d40/2201/32/832653afdcdet.jpg" /></a>
 
 ## How to start with main branch
 ### server
